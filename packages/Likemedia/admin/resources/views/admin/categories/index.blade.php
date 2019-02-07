@@ -24,10 +24,10 @@
     <div class="part full-part min-height">
         <div id="container">
             <a class="btn-link btn btn-primary modal-id" data-toggle="modal" data-target="#addCategory" data-id="0">
-            <small><i class="fa fa-plus"></i> Adauga o categorie</small>
+                <small><i class="fa fa-plus"></i> Adauga o categorie</small>
             </a>
             <a class="btn-link btn btn-primary modal-id" href="{{ Request::url() }}">
-            <small><i class="fa fa-refresh"></i> Salveaza</small>
+                <small><i class="fa fa-refresh"></i> Salveaza</small>
             </a>
         </div>
         <div class="dd" id="nestable-output">

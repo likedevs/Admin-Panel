@@ -211,11 +211,11 @@ function Label($pageId, $langId, $number)
 
 function GetParameter($key, $langId)
 {
-    $table = "product_properies";
+    $table = "product_properties";
 
     $row = DB::table($table)
         ->select('name')
-        ->join('product_properies_translation', 'product_properies_translation.property_id', '=', $table . '.id')
+        ->join('product_properties_translation', 'product_properties_translation.property_id', '=', $table . '.id')
         ->where('lang_id', $langId)
         ->where('key', $key)
         ->first();
@@ -229,7 +229,7 @@ function GetParameter($key, $langId)
 
 function ParameterId($key)
 {
-    $table = "product_properies";
+    $table = "product_properties";
 
     $row = DB::table($table)
         ->select('id')
@@ -265,7 +265,7 @@ function GetParamValue($property_id, $product_id, $langId = 0)
 
 function getFullParameterById($property_id, $product_id, $langId = 0)
 {
-    $property = DB::table('product_properies_translation')
+    $property = DB::table('product_properties_translation')
         ->select('id', 'name')
         ->where('lang_id', $langId)
         ->where('property_id', $property_id)
@@ -298,7 +298,7 @@ function getFullParameterById($property_id, $product_id, $langId = 0)
 
 function getFullTextParameter($property_id, $product_id, $langId = 0)
 {
-    $property = DB::table('product_properies_translation')
+    $property = DB::table('product_properties_translation')
         ->select('id', 'name')
         ->where('lang_id', $langId)
         ->where('property_id', $property_id)
@@ -373,7 +373,7 @@ function getProductsByCategory($categoryId, $langId)
     $table = "products";
 
     $row = DB::table($table)
-        ->join('product_translations', 'product_translations.product_id', '=', $table . '.id')
+        ->join('products_translation', 'products_translation.product_id', '=', $table . '.id')
         ->where('lang_id', $langId)
         ->where('category_id', $categoryId)
         ->get();
@@ -525,12 +525,12 @@ function getMainMenu($level, $lang_id, $menu_id) {
 
 function getHitProducts($lang_id) {
   $row = DB::table('products')
-      ->join('product_translations', 'products.id', '=', 'product_translations.product_id')
+      ->join('products_translation', 'products.id', '=', 'products_translation.product_id')
       ->where('lang_id', $lang_id)
       ->where('hit', 1)
       ->orderBy('products.created_at', 'desc')
       ->limit(15)
-      ->select('products.*', 'products.alias as productAlias','product_translations.*')
+      ->select('products.*', 'products.alias as productAlias','products_translation.*')
       ->get();
 
     if (!empty($row)) {
@@ -553,11 +553,11 @@ function getProductImages($product_id, $lang_id) {
 
 function getPromotionProducts($lang_id) {
   $row = DB::table('products')
-      ->join('product_translations', 'products.id', '=', 'product_translations.product_id')
+      ->join('products_translation', 'products.id', '=', 'products_translation.product_id')
       ->where('lang_id', $lang_id)
       ->where('promotion_id', '!=', 0)
       ->orderBy('products.created_at', 'desc')
-      ->select('products.*', 'products.alias as productAlias','product_translations.*')
+      ->select('products.*', 'products.alias as productAlias','products_translation.*')
       ->paginate(12);
     if (!empty($row)) {
         return $row;
@@ -567,12 +567,12 @@ function getPromotionProducts($lang_id) {
 
 function getRecomendedProducts($lang_id) {
   $row = DB::table('products')
-      ->join('product_translations', 'products.id', '=', 'product_translations.product_id')
+      ->join('products_translation', 'products.id', '=', 'products_translation.product_id')
       ->where('lang_id', $lang_id)
       ->where('recomended', 1)
       ->orderBy('products.created_at', 'desc')
       ->limit(15)
-      ->select('products.*', 'products.alias as productAlias','product_translations.*')
+      ->select('products.*', 'products.alias as productAlias','products_translation.*')
       ->get();
 
      if (!empty($row)) {
@@ -701,7 +701,7 @@ function getProducts()
 }
 
 function checkProductsSimilar($product_id, $category_id) {
-  $row = DB::table('products_similar')
+  $row = DB::table('similar_products')
         ->where('product_id', $product_id)
         ->where('category_id', $category_id)
         ->first();
@@ -751,22 +751,6 @@ function checkProductInPropertyValue($propertyId, $valueId, $productsArr)
     }
 
     return false;
-}
-
-
-function getBrandsChilds($brand_id)
-{
-  $row = DB::table('brands')
-      ->join('brands_translation', 'brands_translation.brand_id', 'brands.id')
-      ->where('lang_id', 1)
-      ->where('parent_id', $brand_id)
-      ->get();
-
-  if(!empty($row)) {
-    return $row;
-  }
-
-  return false;
 }
 
 function getBrands($langId)
@@ -913,11 +897,11 @@ function getParamCategory($param, $categ)
 }
 
 function getParamById($property_id, $lang_id) {
-    $table = "product_properies";
+    $table = "product_properties";
 
     $row = DB::table($table)
-        ->join('product_properies_translation', 'product_properies_translation.property_id', '=', $table . '.id')
-        ->where('product_properies.id', $property_id)
+        ->join('product_properties_translation', 'product_properties_translation.property_id', '=', $table . '.id')
+        ->where('product_properties.id', $property_id)
         ->where('lang_id', $lang_id)
         ->first();
 
@@ -951,7 +935,7 @@ function getParamValueById($property_id, $lang_id) {
 }
 
 function getLangById($langId) {
-    $table = "lang";
+    $table = "langs";
 
     $row = DB::table($table)
         ->where('id', $langId)

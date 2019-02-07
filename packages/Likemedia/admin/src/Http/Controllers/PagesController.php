@@ -97,7 +97,6 @@ class PagesController extends Controller
 
         $page = Page::findOrFail($id);
         $page->alias = request('alias');
-        // $page->position = $request->active;
         $page->on_header = $on_header;
         $page->on_drop_down = $on_drop_down;
         $page->on_footer = $on_footer;

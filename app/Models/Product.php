@@ -36,16 +36,12 @@ class Product extends Model
 
     public function mainImage()
     {
-        $photo = $this->hasOne(ProductImage::class, 'product_id')->orderBy('main', 'desc');
-
-        return $photo;
+        return $this->hasOne(ProductImage::class, 'product_id')->orderBy('main', 'desc');
     }
 
     public function setImage($setId)
     {
-        $photo = $this->hasOne(SetProductImage::class, 'product_id')->where('set_id', $setId);
-
-        return $photo;
+         return $this->hasOne(SetProductImage::class, 'product_id')->where('set_id', $setId);
     }
 
     public function setImages()

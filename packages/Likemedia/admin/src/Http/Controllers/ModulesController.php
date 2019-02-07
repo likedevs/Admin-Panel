@@ -90,7 +90,6 @@ class ModulesController extends Controller
         $module->name = $request->name;
         $module->description = $request->description;
         $module->src = $request->src;
-        $module->position = 1;
         $module->table_name = $request->table_name;
         $module->icon = $request->icon;
         $module->parent_id = $request->parent_id;

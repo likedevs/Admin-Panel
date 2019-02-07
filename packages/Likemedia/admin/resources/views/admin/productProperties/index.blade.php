@@ -114,8 +114,8 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            <input class="checkbox" type="checkbox" name="multilingual" >
-                            <span>Multilingual</span>
+                            <input class="checkbox" type="checkbox" name="filter" >
+                            <span>Filter</span>
                         </label>
                     </div>
                     <div class="tab-area">

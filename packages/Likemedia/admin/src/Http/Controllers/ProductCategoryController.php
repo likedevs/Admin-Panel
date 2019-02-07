@@ -38,10 +38,11 @@ class ProductCategoryController extends Controller
 
     public function store(Request $request)
     {
-        $toValidate = [];
+        dd('vdf');
+        $toValidate['alias'] =  'required|unique:product_categories_,alias|max:255';
+
         foreach ($this->langs as $lang){
             $toValidate['name_'.$lang->lang] = 'required|max:255';
-            $toValidate['slug_'.$lang->lang] = 'required|unique:product_categories_translation,url|max:255';
         }
 
         $validator = $this->validate($request, $toValidate);
@@ -49,17 +50,13 @@ class ProductCategoryController extends Controller
         $productCategory = new ProductCategory();
 
         $productCategory->parent_id = $request->parent_id;
+        $productCategory->alias = $request->alias;
         $productCategory->save();
 
         foreach ($this->langs as $lang):
             $menu->translations()->create([
                 'lang_id' => $lang->id,
                 'name' => request('name_' . $lang->lang),
-                'url' => request('slug_' . $lang->lang),
-                'meta_text' => request('meta_text_' . $lang->lang),
-                'meta_title' => request('meta_title_' . $lang->lang),
-                'meta_keywords' => request('meta_keywords_' . $lang->lang),
-                'meta_description' => request('meta_description_' . $lang->lang),
             ]);
         endforeach;
 
@@ -92,37 +89,15 @@ class ProductCategoryController extends Controller
             $active = 1;
         }
 
-        $img = $request->get('image_old');
 
-        if ($request->file('img')) {
-            $img = $this->uploadImg($request->file('img'));
-        }
-
-        $banner1 = $request->get('banner_1_old');
-
-        if ($request->file('banner_1')) {
-            $banner1 = $this->uploadImg($request->file('banner_1'));
-        }
-
-        $banner2 = $request->get('banner_2_old');
-
-        if ($request->file('banner_2')) {
-            $banner2 = $this->uploadImg($request->file('banner_2'));
-        }
-
-        $productCategory->img = $img;
-        $productCategory->banner_1 = $banner1;
-        $productCategory->banner_2 = $banner2;
         $productCategory->on_home = $on_home;
         $productCategory->active = $active;
-        $productCategory->video = $request->get('video');
+        $productCategory->alias = request('alias');
         $productCategory->save();
 
         foreach ($this->langs as $lang):
             $productCategory->translations()->where('product_category_id', $id)->where('lang_id', $lang->id)->update([
-                'url' => request('slug_' . $lang->lang),
                 'name' => request('name_' . $lang->lang),
-                'h1_title' => request('h1_title_' . $lang->lang),
                 'description' => request('description_' . $lang->lang),
                 'seo_text' => request('seo_text_' . $lang->lang),
                 'seo_title' => request('seo_title_' . $lang->lang),
@@ -240,26 +215,23 @@ class ProductCategoryController extends Controller
 
     public function partialSave(Request $request)
     {
-        $toValidate = [];
         $toValidate['alias'] = 'required|max:255|unique:product_categories,alias';
 
         foreach ($this->langs as $lang){
             $toValidate['name_'.$lang->lang] = 'required|max:255';
-            $toValidate['slug_'.$lang->lang] = 'required|unique:product_categories_translation,url|max:255';
         }
 
         $validator = $this->validate($request, $toValidate);
 
         $category = new ProductCategory();
         $category->parent_id = $request->parent_id;
-        $category->alias = str_slug($request->alias);
+        $category->alias = $request->alias;
         $category->save();
 
         foreach ($this->langs as $lang):
             $category->translations()->create([
                 'lang_id' => $lang->id,
                 'name' => request('name_' . $lang->lang),
-                'url' => request('slug_' . $lang->lang),
             ]);
         endforeach;
 
@@ -320,7 +292,7 @@ class ProductCategoryController extends Controller
             }
         }
 
-        return  json_encode (['text' => SelectProductCategoriesTree(1, 0, $curr_id=null), 'message' => $response, 'parentId' =>  $parentId, 'childId' => $childId]);
+        return  json_encode (['text' => SelectProductCategoriesTree($this->lang->id, 0, $curr_id=null), 'message' => $response, 'parentId' =>  $parentId, 'childId' => $childId]);
     }
 
     public function movePosts(Request $request)

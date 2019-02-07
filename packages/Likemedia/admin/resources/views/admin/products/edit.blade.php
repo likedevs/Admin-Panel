@@ -42,9 +42,8 @@
                     <li>
                         <label>Categorie</label>
                         <select name="category_id">
-                            <option value="0">---</option>
                         @foreach($categories as $categoryItem)
-                            <option {{ $categoryItem->id == $product->category_id ? 'selected' : '' }} value="{{ $categoryItem->id }}">{{ $categoryItem->translation()->first()->name }}</option>
+                            <option {{ $categoryItem->id == $product->category_id ? 'selected' : '' }} value="{{ $categoryItem->id }}">{{ $categoryItem->translation($lang->id)->first()->name }}</option>
                         @endforeach
                         </select>
                         @if ($product->category_id > 0)
@@ -60,7 +59,7 @@
                         <select name="prommotion_id">
                         <option value="0">---</option>
                         @foreach($promotions as $promotion)
-                        <option value="{{ $promotion->id }}" {{ $product->promotion_id == $promotion->id ? 'selected' : '' }}>{{ $promotion->translation()->first()->name }}</option>
+                        <option value="{{ $promotion->id }}" {{ $product->promotion_id == $promotion->id ? 'selected' : '' }}>{{ $promotion->translation($lang->id)->first()->name }}</option>
                         @endforeach
                         </select>
                         @if ($product->promotion_id)
@@ -85,7 +84,7 @@
                                         <div class="col-md-12">
                                             <label>
                                               <input class="checkbox" type="checkbox" name="collection_id[]" value="{{ $collection->id }}">
-                                              <span>{{ $collection->translation()->first()->name }}</span>
+                                              <span>{{ $collection->translation($lang->id)->first()->name }}</span>
                                             </label>
                                         </div>
                                     </div>
@@ -102,7 +101,6 @@
            <div class="col-md-12">
                 <ul>
                     <li class="form-group">
-                        <label>Seturi [imagini - {{ count($product->setImages()->get()) }}]</label>
                         <div class="dropdown show">
                           <button type="button" class="btn btn-default dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%;">
                             Alege set
@@ -115,7 +113,7 @@
                                       <div class="col-md-4">
                                           <label>
                                               <input class="checkbox" type="checkbox" name="set_id[]" value="{{ $set->id }}" {{ !is_null($set->setProduct($product->id)->first()) ? 'checked' : '' }}>
-                                              <span>{{ $set->translation()->first()->name }}</span>
+                                              <span>{{ $set->translation($lang->id)->first()->name }}</span>
                                           </label>
                                       </div>
                                       <div class="col-md-4">
@@ -203,19 +201,6 @@
             </div>
             <div class="part right-part">
                 <ul>
-                    <li>
-                        <label>Slug [{{ $lang->lang }}]</label>
-                        <input type="text" name="slug_{{ $lang->lang }}"
-                        class="slug form-control"
-                        id="slug-{{ $lang->lang }}"
-                        @foreach($product->translations as $translation)
-                        @if ($translation->lang_id == $lang->id)
-                        value="{{ $translation->alias }}"
-                        @endif
-                        @endforeach
-                        >
-                    </li>
-                    <hr>
                     <h6>Seo texts</h6>
                     <li>
                         <label>{{trans('variables.meta_title_page')}} [{{ $lang->lang }}]</label>
@@ -256,6 +241,10 @@
             @include('admin::admin.products.parameters')
             <ul>
                 <li>
+                    <label>Alias</label>
+                    <input type="text" name="alias" value="{{ $product->alias }}">
+                </li>
+                <li>
                     <label>Code</label>
                     <input type="text" name="code" value="{{ $product->code }}">
                 </li>
@@ -264,12 +253,8 @@
                     <input type="number" name="stock" value="{{ $product->stock }}" step="any">
                 </li>
                 <li>
-                    <label>Price (EURO) <small>with discount - {{ $product->actual_price }} euro</small></label>
+                    <label>Price  <small>with discount - {{ $product->actual_price }} euro</small></label>
                     <input type="number" name="price" value="{{ $product->price }}" step="any">
-                </li>
-                <li>
-                    <label>Price (LEI) <small>with discount - {{ $product->actual_price_lei }} lei</small></label>
-                    <input type="number" name="price_lei" value="{{ $product->price_lei }}">
                 </li>
                 <li>
                     <label>Disount</label>

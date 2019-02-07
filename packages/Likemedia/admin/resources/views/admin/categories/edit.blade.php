@@ -35,8 +35,8 @@
     <form class="form-reg" method="post" action="{{ route('categories.update', $category->id) }}" enctype="multipart/form-data">
         {{ csrf_field() }} {{ method_field('PATCH') }}
         @if (!empty($langs))
-        @foreach ($langs as $lang)
-        <div class="tab-content {{ $loop->first == 0 ? ' active-content' : '' }}" id={{ $lang->
+        @foreach ($langs as $key => $lang)
+        <div class="tab-content {{ $key == 0 ? ' active-content' : '' }}" id={{ $lang->
             lang }}>
             <div class="part left-part">
                 <ul>

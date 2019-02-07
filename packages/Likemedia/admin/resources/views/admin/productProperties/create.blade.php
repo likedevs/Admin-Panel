@@ -64,8 +64,8 @@
                 <div class="col-md-6">
                     <div class="form-group"><br><br>
                         <label>
-                            <input class="checkbox" type="checkbox" name="multilingual">
-                            <span>Multilingual</span>
+                            <input class="checkbox" type="checkbox" name="fliter">
+                            <span>Fliter</span>
                         </label>
                     </div>
                 </div>

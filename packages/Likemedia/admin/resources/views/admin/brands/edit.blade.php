@@ -55,7 +55,7 @@
                         @endforeach
                         >
                     </li>
-                    
+
                     <li>
                         <label for="descr-{{ $lang->lang }}">Description [{{ $lang->lang }}]</label>
                         <textarea name="description_{{ $lang->lang }}" id="descr-{{ $lang->lang }}"> @foreach($brand->translations as $translation) @if($translation->lang_id == $lang->id && !is_null($translation->lang_id)){{ $translation->description }} @endif @endforeach </textarea>
@@ -129,21 +129,6 @@
         @endforeach
         @endif
 
-        <div class="row">
-            <div class="col-md-4">
-                <ul>
-                    <li>
-                        <label>Parent Brand</label>
-                        <select name="parent_id">
-                            <option value="0">--</option>
-                        @foreach($allBrands as $oneBrand)
-                            <option {{ $oneBrand->id == $brand->parent_id ? 'selected' : '' }} value="{{ $oneBrand->id }}">{{ $oneBrand->translation()->first()->name }}</option>
-                        @endforeach
-                        </select>
-                    </li>
-                </ul>
-            </div>
-        </div>
         <ul>
             <li>
                 <div class="row">

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductPropertyTranslation extends Model
 {
-    protected $table = 'product_properies_translation';
+    protected $table = 'product_properties_translation';
 
     protected $fillable = [
         'property_id',

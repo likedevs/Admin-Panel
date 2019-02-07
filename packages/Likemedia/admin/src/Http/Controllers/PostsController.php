@@ -2,7 +2,6 @@
 
 namespace Admin\Http\Controllers;
 
-use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -17,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['translation', 'tags'])->paginate(15);
+        $posts = Post::paginate(15);
 
         return view('admin::admin.posts.index', compact('posts'));
     }
@@ -31,9 +30,7 @@ class PostsController extends Controller
     {
         $categories = Category::where('level', 1)->get();
 
-        $tags = Tag::distinct()->get(['name', 'lang_id']);
-
-        return view('admin::admin.posts.create', compact('categories', 'tags'));
+        return view('admin::admin.posts.create', compact('categories'));
     }
 
     /**
@@ -48,7 +45,7 @@ class PostsController extends Controller
         $toValidate = [];
         foreach ($this->langs as $lang){
             $toValidate['title_'.$lang->lang] = 'required|max:255';
-            $toValidate['url_'.$lang->lang] = 'required|unique:posts_translation,slug|max:255';
+            $toValidate['slug_'.$lang->lang] = 'required|unique:posts_translation,slug|max:255';
         }
 
         $validator = $this->validate($request, $toValidate);
@@ -85,34 +82,6 @@ class PostsController extends Controller
                 'image_alt' => request('img_alt_' . $lang->lang),
             ]);
 
-            if ( (request('tag_' . $lang->lang) != null) && !(request('tag_' . $lang->lang)[0] == "") ) {
-                $tagname = request('tags_' . $lang->lang);
-                $tag = Tag::where('post_id', $post->id)->get();
-                if(count($tag) == 0) {
-                  foreach ($tagname as $newTag):
-                      $tag = new Tag();
-                      $tag->lang_id = $lang->id;
-                      $tag->post_id = $post->id;
-                      $tag->name = $newTag;
-                      $tag->save();
-                  endforeach;
-                }
-            }
-
-            if ( request('tags_' . $lang->lang) != null ) {
-                $tagname = request('tags_' . $lang->lang);
-                $tag = Tag::where('post_id', $post->id)->get();
-                if(count($tag) == 0) {
-                  foreach ($tagname as $newTag):
-                      $tag = new Tag();
-                      $tag->lang_id = $lang->id;
-                      $tag->post_id = $post->id;
-                      $tag->name = $newTag;
-                      $tag->save();
-                  endforeach;
-                }
-            }
-
         endforeach;
 
         session()->flash('message', 'New item has been created!');
@@ -141,13 +110,10 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::with(['translations', 'tags'])->findOrFail($id);
-
         $categories = Category::all();
+        $post = Post::find($id);
 
-        $tags = Tag::distinct()->get(['name', 'lang_id']);
-
-        return view('admin::admin.posts.edit', compact('post', 'categories', 'tags'));
+        return view('admin::admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -165,7 +131,7 @@ class PostsController extends Controller
         $toValidate = [];
         foreach ($this->langs as $lang){
             $toValidate['title_'.$lang->lang] = 'required|max:255';
-            $toValidate['url_'.$lang->lang] = 'required|unique:posts_translation,slug|max:255';
+            $toValidate['slug_'.$lang->lang] = 'required|max:255';
         }
 
         $validator = $this->validate($request, $toValidate);
@@ -214,34 +180,6 @@ class PostsController extends Controller
                 'image_alt' => request('img_alt_' . $lang->lang),
             ]);
 
-            if ( (request('tag_' . $lang->lang) != null) && !(request('tag_' . $lang->lang)[0] == "") ) {
-                $tagname = request('tags_' . $lang->lang);
-                $tag = Tag::where('post_id', $post->id)->get();
-                if(count($tag) == 0) {
-                  foreach ($tagname as $newTag):
-                      $tag = new Tag();
-                      $tag->lang_id = $lang->id;
-                      $tag->post_id = $post->id;
-                      $tag->name = $newTag;
-                      $tag->save();
-                  endforeach;
-                }
-            }
-
-            if ( request('tags_' . $lang->lang) != null ) {
-                $tagname = request('tags_' . $lang->lang);
-                $tag = Tag::where('post_id', $post->id)->get();
-                if(count($tag) == 0) {
-                  foreach ($tagname as $newTag):
-                      $tag = new Tag();
-                      $tag->lang_id = $lang->id;
-                      $tag->post_id = $post->id;
-                      $tag->name = $newTag;
-                      $tag->save();
-                  endforeach;
-                }
-            }
-
         endforeach;
 
 
@@ -267,7 +205,6 @@ class PostsController extends Controller
         }
 
         $post->delete();
-        $post->translations()->delete();
 
         session()->flash('message', 'Item has been deleted!');
 

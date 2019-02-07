@@ -52,7 +52,6 @@ class SetsController extends Controller
         $set->collection_id = request('collection_id');
         $set->alias = str_slug(request('title_ro'));
         $set->price = request('price');
-        $set->price_lei = request('price_lei');
         $set->discount = request('discount');
         $set->position = 1;
         $set->save();
@@ -127,7 +126,6 @@ class SetsController extends Controller
         $set->collection_id = request('collection_id');
         $set->alias = str_slug(request('title_ro'));
         $set->price = request('price');
-        $set->price_lei = request('price_lei');
         $set->discount = request('discount');
         $set->on_home = $onHome;
         $set->active = $active;

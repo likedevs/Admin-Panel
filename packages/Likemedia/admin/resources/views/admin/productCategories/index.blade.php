@@ -21,7 +21,7 @@
             <a class="btn btn-primary modal-id" data-toggle="modal" data-target="#addCategory" data-id="0"><i class="fa fa-plus"></i></a>
         </div>
         <div class="dd" id="nestable-output">
-            {!! SelectProductCategoriesTree(1, 0, $curr_id=null) !!}
+            {!! SelectProductCategoriesTree($lang->id, 0, $curr_id=null) !!}
             <div class="nestable-stop"></div>
         </div>
         <script>
@@ -51,7 +51,6 @@
                                 list: list.nestable('serialize')
                             },
                             success:  function(data){
-                                console.log(JSON.parse(data).message);
                                 if (JSON.parse(data).message == false) {
                                     var response = JSON.parse(data);
                                     $('#moveModal').modal('show');

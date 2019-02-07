@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PropertyGroupTranslation extends Model
 {
-    protected $table = 'properties_groups_translation';
+    protected $table = 'property_groups_translation';
 
     protected $fillable = [
         'property_group_id',

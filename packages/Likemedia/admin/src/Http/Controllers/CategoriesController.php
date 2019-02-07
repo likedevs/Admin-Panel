@@ -48,12 +48,15 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
-        $name = time() . '-' . $request->image->getClientOriginalName();
-        $request->image->move('images/categories', $name);
-
         $category = new Category();
         $category->parent_id = $request->parent_id;
-        $category->image = $name;
+
+        if($request->image) {
+          $name = time() . '-' . $request->image->getClientOriginalName();
+          $request->image->move('images/categories', $name);
+          $category->image = $name;
+        }
+
         $category->save();
 
         foreach ($this->langs as $lang):

@@ -62,8 +62,8 @@
                 <div class="col-md-6">
                     <div class="form-group"><br><br>
                         <label>
-                            <input class="checkbox" type="checkbox" name="multilingual" {{ $property->multilingual == 1 ? 'checked' : ''}}>
-                            <span>Multilingual</span>
+                            <input class="checkbox" type="checkbox" name="filter" {{ $property->filter == 1 ? 'checked' : ''}}>
+                            <span>Filter</span>
                         </label>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ namespace Admin\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\General;
 
 
 class GeneralController extends Controller
@@ -11,8 +12,9 @@ class GeneralController extends Controller
     public function index()
     {
       $changeMenu = json_decode(file_get_contents(storage_path('globalsettings.json')), true)['changeCategory'];
+      $generals = General::all();
 
-      return view('admin::admin.general.index', compact('changeMenu'));
+      return view('admin::admin.general.index', compact('changeMenu', 'generals'));
     }
 
     public function updateMenu(Request $request)
@@ -32,6 +34,28 @@ class GeneralController extends Controller
       session()->flash('message', 'This option has been updated!');
 
       return redirect()->route('general.index');
+    }
+
+    public function updateSettings(Request $request) {
+        $i = 0;
+        foreach ($request->id as $key => $generalId) {
+            $general = General::find($key);
+
+            $general->translations()->delete();
+
+            foreach ($this->langs as $lang):
+                $general->translations()->create([
+                    'lang_id' => $lang->id,
+                    'name' => request('name_' . $lang->lang)[$i],
+                    'body' => request('body_' . $lang->lang)[$i],
+                    'description' => request('description_' . $lang->lang)[$i],
+                ]);
+            endforeach;
+
+            $i++;
+        }
+
+        return redirect()->back();
     }
 
 }

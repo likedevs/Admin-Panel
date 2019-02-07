@@ -24,8 +24,6 @@
                 @foreach($properties as $key => $property)
                 <?php
                     $subproductProperty = getParamCategory($property->id, $product_category->id);
-                    // echo $product_category->id;
-                    // dd($subproductProperty);
                 ?>
                 <input type="hidden" name="property_id[]" value="{{$property->id}}">
                 <tr id="{{ $property->id }}">
@@ -43,7 +41,7 @@
                                   <option value="0" {{ $subproductProperty->show_property == 0 ? 'selected' : '' }}>No</option>
                               @else
                                   <option value="1">Yes</option>
-                                  <option value="0">No a</option>
+                                  <option value="0">No</option>
                               @endif
 
                           </select>

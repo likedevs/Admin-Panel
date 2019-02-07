@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +12,12 @@ class CartSet extends Model
 
     public function set()
     {
-        return $this->hasOne(Set::class, 'id', 'set_id');
+        return $this->hasOne(Set::class , 'id', 'set_id');
     }
 
     public function cart()
     {
-        return $this->hasMany(Cart::class, 'set_id', 'id');
+        return $this->hasMany(Cart::class , 'set_id', 'id');
     }
 
 }

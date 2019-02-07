@@ -111,7 +111,6 @@ class ProductsController extends ShopController
 
         $products = $this->getProductsByParams($filter);
         $dependebleProps = SubProductProperty::where('product_category_id', $category->id)->where('status', 'dependable')->where('show_property', 1)->get();
-        $banners = ProductCategory::where('parent_id', $category->id)->pluck('img');
         $categoryId = $category->id;
 
         $productsAll = $this->getProductsByParamsAll();
@@ -130,7 +129,7 @@ class ProductsController extends ShopController
            return json_encode(['html' => $view, 'url' => $url, 'last' => $lastItem]);
         }
 
-        return view('front.products.categoriesList', compact('seoData', 'filter', 'categoryId', 'category', 'subcategories', 'products', 'productsAll', 'properties', 'dependebleProps', 'banners'));
+        return view('front.products.categoriesList', compact('seoData', 'filter', 'categoryId', 'category', 'subcategories', 'products', 'productsAll', 'properties', 'dependebleProps'));
     }
 
     /**
@@ -224,9 +223,8 @@ class ProductsController extends ShopController
 
         $products = $this->getProductsByParams($filter);
         $dependebleProps = SubProductProperty::where('product_category_id', $category->id)->where('status', 'dependable')->where('show_property', 1)->get();
-        $banners = ProductCategory::where('parent_id', $category->id)->pluck('img');
 
-        return view('front.products.categoriesList', compact('seoData', 'filter', 'brands', 'category', 'subcategories', 'products', 'properties', 'dependebleProps', 'banners'));
+        return view('front.products.categoriesList', compact('seoData', 'filter', 'brands', 'category', 'subcategories', 'products', 'properties', 'dependebleProps'));
     }
 
     /**

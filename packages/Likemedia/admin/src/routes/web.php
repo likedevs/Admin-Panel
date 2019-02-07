@@ -198,6 +198,7 @@ Route::group(['middleware' => ['web']], function ()
 
             Route::get('/general', 'GeneralController@index')->name('general.index');
             Route::post('/general/updateMenu', 'GeneralController@updateMenu')->name('general.updateMenu');
+            Route::post('/general/updateSettings', 'GeneralController@updateSettings')->name('general.updateSettings');
 
             Route::get('/contacts', 'ContactController@index')->name('contacts.index');
             Route::post('/contacts', 'ContactController@store')->name('contacts.store');

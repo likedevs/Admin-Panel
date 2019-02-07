@@ -172,13 +172,10 @@ function GetPidId($menu_id, $table)
  */
 function SelectGoodsCatsTree($lang_id, $id, $curr_id = null, $level = 0)
 {
-
     $menu_id_by_level = DB::table('categories')
-        ->where('deleted', 0)
         ->where('parent_id', $id)
         ->orderBy('position', 'asc')
         ->get();
-
 
     $menu_by_level = [];
     foreach ($menu_id_by_level as $key => $one_menu_id_by_level) {
@@ -224,7 +221,7 @@ function SelectGoodsCatsTree($lang_id, $id, $curr_id = null, $level = 0)
 
                <a href="' . $edit . '"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
-               <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
+               <a href="/back/posts/category/' . $entry->category_id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
                <a class="btn-link modal-id" data-toggle="modal" data-target="' . $addNew . '" data-id="' . $entry->category_id . '" data-name="' . $entry->name . '">
                <i class="fa fa-plus" aria-hidden="true"></i>
@@ -337,7 +334,6 @@ function SelectProductCategoriesTree($lang_id, $id, $curr_id = null, $level = 0)
         ->orderBy('position', 'asc')
         ->get();
 
-
     $menu_by_level = [];
     foreach ($menu_id_by_level as $key => $one_menu_id_by_level) {
         $menu_by_level[$key] = DB::table('product_categories_translation')
@@ -378,11 +374,11 @@ function SelectProductCategoriesTree($lang_id, $id, $curr_id = null, $level = 0)
                 </div>
                 %s
             </li>',
-                '<span>' . $entry->name .' - ' . $entry->url. '</span><div class="buttons">
+                '<span>' . $entry->name .' - </span><div class="buttons">
                 '. $postsLink .'
                <a href="' . $edit . '"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
-               <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
+               <a href="/back/products/category/' . $entry->product_category_id . '"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
                <a class="btn-link modal-id" data-toggle="modal" data-target="' . $addNew . '" data-id="' . $entry->product_category_id . '" data-name="' . $entry->name . '">
                <i class="fa fa-plus" aria-hidden="true"></i>
@@ -464,7 +460,7 @@ function checkPosts($id)
 
 
 function checkPropertyCat($category_id, $property_id){
-    $row = DB::table('properties_categories')
+    $row = DB::table('property_categories')
         ->where('property_id', $property_id)
         ->where('category_id', $category_id)
         ->first();
@@ -476,14 +472,14 @@ function checkPropertyCat($category_id, $property_id){
 }
 
 function checkPropertyCatGroup($category_id, $group_id){
-    $properties = DB::table('product_properies')
+    $properties = DB::table('product_properties')
         ->select('id')
         ->where('group_id', $group_id)
         ->get();
 
     if (!empty($properties)) {
         foreach ($properties as $key => $property) {
-            $row = DB::table('properties_categories')
+            $row = DB::table('property_categories')
                 ->select('id')
                 ->where('property_id', $property->id)
                 ->where('category_id', $category_id)

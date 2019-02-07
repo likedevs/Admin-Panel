@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,7 +7,7 @@ class Brand extends Model
 {
     protected $table = 'brands';
 
-    protected $fillable = ['parent_id', 'alias', 'img', 'picture'];
+    protected $fillable = ['alias', 'image', 'logo', 'position', 'active'];
 
     public function translations()
     {
@@ -19,11 +18,13 @@ class Brand extends Model
     {
         $lang = Lang::where('lang', session('applocale'))->first()->id ?? Lang::first()->id;
 
-        return $this->hasMany(BrandTranslation::class, 'brand_id')->where('lang_id', $lang);
+        return $this->hasMany(BrandTranslation::class , 'brand_id')
+                    ->where('lang_id', $lang);
     }
 
     public function translationByLanguage($lang = '1')
     {
-        return $this->hasOne(BrandTranslation::class)->where('lang_id', $lang);
+        return $this->hasOne(BrandTranslation::class)
+                    ->where('lang_id', $lang);
     }
 }

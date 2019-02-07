@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+        }
+    });
 
     $(document).bind('keypress', function(e){
         var code = e.keyCode || e.which;
@@ -11,24 +16,9 @@ $(document).ready(function() {
       e.stopPropagation();
     });
 
-    $('form').bind('keypress', function(e){
-        var code = e.keyCode || e.which;
-        // console.log($(this))
-        if(code == 13){
-            e.preventDefault();
-            saveForm($(this).children('input[type=submit]'))
-        }
-    })
-
     // Make active first input
     $('form').find('input[type=text]').filter(':visible:first').focus();
     // Make active first input
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-        }
-    });
 
     $('#tablelistsorter').tableDnD({
         onDrop: function(table, row) {
@@ -63,16 +53,13 @@ $(document).ready(function() {
     $(".dragHandle").css("cursor", "move");
 
     $("#lma").css("cursor", "pointer").click(function(){
-
         if($("#lma-img").attr("src") == "/img/back/lma-right.gif"){
             $(".leftmenu").hide();
             $("#lma-img").attr("src", "/img/back/lma-left.gif");
             $(".lma").css("left", "0");
             $(".main-div").css("margin-left", "18px");
             $.post("/back/e.php", {action: "leftmenustatus", leftmenustatus: "closed"}, function(data){
-                if(data!=0){
-
-                }
+                if(data!=0){}
             });
         }else {
             $(".leftmenu").show();
@@ -80,9 +67,7 @@ $(document).ready(function() {
             $(".lma").css("left", "184px");
             $(".main-div").css("margin-left", "0");
             $.post("/back/e.php", {action: "leftmenustatus", leftmenustatus: "opened"}, function(data){
-                if(data!=0){
-
-                }
+                if(data!=0){}
             });
         }
     })
@@ -128,20 +113,11 @@ $(document).ready(function() {
     $(document).on('click','.file-div button', function (parentThat) {
         parentThat.preventDefault();
 
-        //$(this).find('span').addClass('glyphicon-refresh');
-
         var inputName = $(this).closest('div').find('input').attr('name');
         var clonedFileInput = $('input[name='+ inputName +'][type="file"]');
         $(clonedFileInput).trigger('click');
 
     });
-
-    // $(document).on('change','input[type=file]', function  () {
-    //     var parentThat = $(this);
-    //     setTimeout(function(){
-    //         $(parentThat).closest('form').submit();
-    //     }, 500);
-    // });
 
     $(document).on('submit', '.upload-form', function(e){
         e.preventDefault();
@@ -311,19 +287,6 @@ $(document).ready(function() {
          $('#datepicker').attr('value', date)
     })
     // End datepicker
-
-    // //Select with search
-    // var config = {
-    //     '.chosen-select'           : {},
-    //     '.chosen-select-deselect'  : {allow_single_deselect:true},
-    //     '.chosen-select-no-single' : {disable_search_threshold:10},
-    //     '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-    //     '.chosen-select-width'     : {width:"100%"}
-    // }
-    // for (var selector in config) {
-    //     $(selector).chosen(config[selector]);
-    // }
-    // //End select with search
 
     //Confirmation
     $('.destroy-element').click(function(e){
@@ -1267,23 +1230,23 @@ $(document).ready(function () {
   });
 
   $(document).on('change', '.datepicker-from', function(){
-          var value = $('.promocode-type').val();
-          var date = $(this).val();
+      var value = $('.promocode-type').val();
+      var date = $(this).val();
 
-          $.ajax({
-              type: "POST",
-              url: '/back/promocode/setType',
-              data: { value: value, date: date },
-              success: function(data) {
-                  var res = JSON.parse(data);
-                $('.response').html(res);
-              },
-              error: function (data) {
-                console.log('Error:', data);
-              }
-          });
+      $.ajax({
+          type: "POST",
+          url: '/back/promocode/setType',
+          data: { value: value, date: date },
+          success: function(data) {
+              var res = JSON.parse(data);
+            $('.response').html(res);
+          },
+          error: function (data) {
+            console.log('Error:', data);
+          }
+      });
 
-          $('.datepicker').hide();
+      $('.datepicker').hide();
   });
 
   $(function() {
@@ -1291,74 +1254,13 @@ $(document).ready(function () {
        $('.datepicker-here').datepicker('setDate', '04/23/2014');
   });
 
-  // $(".datepicker-here").datepicker().datepicker("setDate", new Date());
+  $('textarea').keypress(function(event) {
+     if (event.which == 13) {
+        event.stopPropagation();
+     }
+  });
+
+  $('textarea').each(function(){
+      $(this).val($(this).val().trim());
+  });
 });
-
-
-
-// $(document).ready(function(){
-//
-//    var updateOutput = function(e)
-//    {
-//        var list   = e.length ? e : $(e.target),
-//            output = list.data('output');
-//        if (window.JSON) {
-//            output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
-//        } else {
-//            output.val('JSON browser support required for this demo.');
-//        }
-//
-//        $.ajax({
-//            type: "POST",
-//            url:  window.location.pathname + '/ajaxRequest/some',
-//            data: {
-//                info: json = window.JSON.stringify(list.nestable('serialize'))
-//            },
-//            success: function(data) {
-//
-//            }
-//        });
-//
-//    };
-//
-//   $('#nestable3').nestable({
-//       group: 1
-//   })
-//   .on('change', updateOutput);
-//
-//   updateOutput($('#nestable3').data('output', $('#nestable3-output')));
-//
-//   $('#nestable3').nestable();
-//
-//
-// // delete menu
-//     $('.delete-menu').on('click', function(){
-//         $id = $(this).attr('data-id');
-//         $this = $(this);
-//
-//         $.ajax({
-//            type: "POST",
-//            url:  window.location.pathname + '/ajaxDeleteMenu/removeMenu',
-//            data: { id: $id },
-//            success: function(data) {
-//                $this.parent().parent().hide();
-//            }
-//        });
-//
-//     });
-//
-// //  edit menu
-//     $('.edit-menu').on('click', function(){
-//         $id = $(this).attr('data-id');
-//         $val = $(this).parent().children('.menu_name').text();
-//         $this = $(this);
-//
-//         $.ajax({
-//            type: "POST",
-//            url:  window.location.pathname + '/ajaxEditMenu/editMenu',
-//            data: { id: $id, val : $val },
-//            success: function(data) {}
-//        });
-//     });
-//
-// });

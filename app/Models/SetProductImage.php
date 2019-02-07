@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class SetProductImage extends Model
 {
-    protected $table = 'sets_products_images';
+    protected $table = 'set_product_images';
 
     protected $fillable = [
         'set_id', 'product_id', 'image'
     ];
 
-    
+
 }

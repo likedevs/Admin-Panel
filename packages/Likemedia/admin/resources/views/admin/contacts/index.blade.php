@@ -459,20 +459,6 @@
                                   </div>
                                 @endif
                             @endif
-
-                            @if ($contact->title == 'phonePayment')
-                                @if(count($contact->translations()->first()) > 0)
-                                  <div class="form-group">
-                                      <label>Phone</label>
-                                      <input type="text" name="phonePayment" value="{{$contact->translations()->first()->value}}" class="form-control">
-                                  </div>
-                                @else
-                                  <div class="form-group">
-                                      <label>Phone</label>
-                                      <input type="text" name="phonePayment"  class="form-control">
-                                  </div>
-                                @endif
-                            @endif
                         @endforeach
                     @endif
 

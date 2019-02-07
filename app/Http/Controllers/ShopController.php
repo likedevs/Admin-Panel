@@ -80,7 +80,7 @@ class ShopController extends Controller
 
 
         return ProductProperty::with('translationByLanguage')
-                            ->where('multilingual', 1)
+                            ->where('filter', 1)
                             ->with('multidata')
                             ->whereIn('id', $properties)
                             ->get();

@@ -3,24 +3,23 @@
 @section('content')
 <div class="wrapp">
 @include('front.partials.header', ['className' => 'default'])
+
 <?php
-    $pinterest = getContactInfo('pinterest')->translationByLanguage()->first()->value;
-    $facebook = getContactInfo('facebook')->translationByLanguage()->first()->value;
-    $instagram = getContactInfo('instagram')->translationByLanguage()->first()->value;
-    $linkedin = getContactInfo('linkedin')->translationByLanguage()->first()->value;
-    $twitter = getContactInfo('twitter')->translationByLanguage()->first()->value;
-    $youtube = getContactInfo('youtube')->translationByLanguage()->first()->value;
-    $google = getContactInfo('google')->translationByLanguage()->first()->value;
+    $phone = !is_null(getContactInfo('phone')->translation($lang->id)) ? getContactInfo('phone')->translation($lang->id)->value : '';
+    $email = !is_null(getContactInfo('emailfront')->translation($lang->id)) ?  getContactInfo('emailfront')->translation($lang->id)->value : '';
+    $viber = !is_null(getContactInfo('viber')->translation($lang->id)) ? getContactInfo('viber')->translation($lang->id)->value : '';
+    $pinterest = !is_null(getContactInfo('pinterest')->translation($lang->id)) ? getContactInfo('pinterest')->translation($lang->id)->value : '';
+    $facebook = !is_null(getContactInfo('facebook')->translation($lang->id)) ?  getContactInfo('facebook')->translation($lang->id)->value : '';
+    $instagram = !is_null(getContactInfo('instagram')->translation($lang->id)) ?  getContactInfo('instagram')->translation($lang->id)->value : '';
+    $linkedin = !is_null(getContactInfo('linkedin')->translation($lang->id)) ?  getContactInfo('linkedin')->translation($lang->id)->value : '';
+    $twitter = !is_null(getContactInfo('twitter')->translation($lang->id)) ? getContactInfo('twitter')->translation($lang->id)->value : '';
+    $youtube = !is_null(getContactInfo('youtube')->translation($lang->id)) ?  getContactInfo('youtube')->translation($lang->id)->value : '';
+    $google = !is_null(getContactInfo('google')->translation($lang->id)) ? getContactInfo('google')->translation($lang->id)->value : '';
+    $footerText = !is_null(getContactInfo('footertext')->translation($lang->id)) ? getContactInfo('footertext')->translation($lang->id)->value : '';
 ?>
-<div class="bannerRet">
-    <ul>
-        {{-- <li><a href="{{ $linkedin }}"><img src="{{ asset('fronts/img/icons/in.png') }}" alt=""></a></li>
-        <li><a href="{{ $google }}"><img src="{{ asset('fronts/img/icons/gmail.png') }}" alt=""></a></li>
-        <li><a href="{{ $twitter }}"><img src="{{ asset('fronts/img/icons/twit.png') }}" alt=""></a></li> --}}
+    <div class="bannerRet">
         <li><a href="{{ $facebook }}"><img src="{{ asset('fronts/img/icons/face.png') }}" alt=""></a></li>
-        {{-- <li><a href="{{ $pinterest }}"><img src="{{ asset('fronts/img/icons/prin.png') }}" alt=""></a></li> --}}
         <li><a href="{{ $instagram }}"><img src="{{ asset('fronts/img/icons/inst.png') }}" alt=""></a></li>
-        {{-- <li><a href="{{ $youtube }}"><img src="{{ asset('fronts/img/icons/yout.png') }}" alt=""></a></li> --}}
     </ul>
 </div>
 <div class="content">
@@ -49,11 +48,13 @@
                                 <a href="{{ url('/'.$lang->lang.'/catalog/outlet') }}">{{ trans('front.ja.goToOutlet') }}</a>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-md-6 tag">
-                            <div class="btnShoping">
-                                <a href="{{ url('/'.$lang->lang.'/collection/'.$firstCollection->alias) }}">{{ trans('front.ja.viewCollections') }}</a>
+                        @if (!is_null($firstCollection))
+                            <div class="col-lg-5 col-md-6 tag">
+                                <div class="btnShoping">
+                                    <a href="{{ url('/'.$lang->lang.'/collection/'.$firstCollection->alias) }}">{{ trans('front.ja.viewCollections') }}</a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="col-lg-5 col-md-6">
                             <div class="delivery1">
                                 <p><strong>{{ Label($page->id, $lang->id, 1) }}</strong></p>
@@ -115,9 +116,11 @@
                     <div class="btnShoping">
                         <a href="{{ url('/'.$lang->lang.'/catalog/outlet') }}">{{ trans('front.ja.goToOutlet') }}</a>
                     </div>
-                    <div class="btnShoping">
-                        <a href="{{ url('/'.$lang->lang.'/collection/'.$firstCollection->alias) }}">{{ trans('front.ja.viewCollections') }}</a>
-                    </div>
+                    @if (!is_null($firstCollection))
+                        <div class="btnShoping">
+                            <a href="{{ url('/'.$lang->lang.'/collection/'.$firstCollection->alias) }}">{{ trans('front.ja.viewCollections') }}</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -18,8 +18,15 @@ class SubProductsController extends Controller
     public function index()
     {
         $categories = ProductCategory::orderBy('position', 'asc')->get();
-        $product_category = $categories[0];
-        $properties = $this->getProperties($product_category->id);
+        $product_category = false;
+        $properties = false;
+
+        if(count($categories) === 0) {
+          $categories = false;
+        } else {
+          $product_category = $categories[0];
+          $properties = $this->getProperties($product_category->id);
+        }
 
         return view('admin::admin.subproducts.index', compact('categories', 'properties', 'product_category'));
     }
@@ -182,14 +189,13 @@ class SubProductsController extends Controller
             ]);
         }else{
             $subprod = $product->subproducts()->create([
+                'active' => 1,
                 'code' => $product->id.'-'.$x,
                 'combination_id' => $combination->id,
                 'combination' => json_encode($combinationJSON),
                 'stock' => $product->stock,
                 'price' => $product->price,
-                'price_lei' => $product->price_lei,
                 'actual_price' => $product->actual_price,
-                'actual_price_lei' => $product->actual_price_lei,
                 'discount' => $product->discount,
             ]);
         }

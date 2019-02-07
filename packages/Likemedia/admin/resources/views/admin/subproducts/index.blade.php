@@ -25,19 +25,27 @@
       <label>Categorie</label>
   </div>
   <div class="col-md-8">
-      <select name="category" class="form-control category-select">
-          @if (count($categories) > 0)
-              @foreach ($categories as $key => $category)
-                <option value="{{ $category->id }}">{{ $category->translationByLanguage($lang->id)->first()->name }}</option>
-              @endforeach
-          @endif
-      </select>
+      @if ($categories)
+        <select name="category" class="form-control category-select">
+            @if (count($categories) > 0)
+                @foreach ($categories as $key => $category)
+                  <option value="{{ $category->id }}">{{ $category->translationByLanguage($lang->id)->first()->name }}</option>
+                @endforeach
+            @endif
+        </select>
+      @else
+        <div class="alert alert-danger">
+          NO Product categories
+        </div>
+      @endif
   </div>
 </div>
 <hr>
 
 <div class="properties">
-  @include('admin::admin.subproducts.properties')
+  @if ($categories)
+    @include('admin::admin.subproducts.properties')
+  @endif
 </div>
 
 @stop

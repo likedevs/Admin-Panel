@@ -6,23 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductProperty extends Model
 {
-    protected $table = 'product_properies';
+    protected $table = 'product_properties';
 
-    protected $fillable = ['type', 'multilingual', 'key', 'group_id'];
+    protected $fillable = ['group_id', 'type', 'key', 'filter'];
 
-    public function translations() {
+    public function translations()
+    {
         return $this->hasMany(ProductPropertyTranslation::class, 'property_id');
     }
 
-    public function category($categoryId) {
+    public function category($categoryId)
+    {
         return $this->hasOne(ProductCategoryTranslation::class, 'product_category_id', 'category_id')->where('product_category_id', $categoryId);
     }
 
-    public function group() {
+    public function group()
+    {
         return $this->hasOne(PropertyGroup::class, 'id', 'group_id');
     }
 
-    public function multidata() {
+    public function multidata()
+    {
         return $this->hasMany(PropertyMultiData::class, 'property_id');
     }
 

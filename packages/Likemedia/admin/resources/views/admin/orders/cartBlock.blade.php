@@ -8,21 +8,21 @@
     @foreach ($order->orderProductsNoSet()->get() as $key => $orderProduct)
 
         @if ($orderProduct->subproduct)
-            <?php $price = $orderProduct->subproduct->price_lei - ($orderProduct->subproduct->price_lei * $orderProduct->subproduct->discount / 100); ?>
+            <?php $price = $orderProduct->subproduct->price - ($orderProduct->subproduct->price * $orderProduct->subproduct->discount / 100); ?>
 
             @if ($price)
                 <?php
                     $amount +=  $price * $orderProduct->qty;
-                    $descountTotal += ($orderProduct->subproduct->price_lei -  ($orderProduct->subproduct->price_lei - ($orderProduct->subproduct->price_lei * $orderProduct->subproduct->discount / 100))) * $orderProduct->qty;
+                    $descountTotal += ($orderProduct->subproduct->price -  ($orderProduct->subproduct->price - ($orderProduct->subproduct->price * $orderProduct->subproduct->discount / 100))) * $orderProduct->qty;
                 ?>
             @endif
         @else
-            <?php $price = $orderProduct->product->price_lei - ($orderProduct->product->price_lei * $orderProduct->product->discount / 100); ?>
+            <?php $price = $orderProduct->product->price - ($orderProduct->product->price * $orderProduct->product->discount / 100); ?>
 
             @if ($price)
                 <?php
                     $amount +=  $price * $orderProduct->qty;
-                    $descountTotal += ($orderProduct->product->price_lei -  ($orderProduct->product->price_lei - ($orderProduct->product->price_lei * $orderProduct->product->discount / 100))) * $orderProduct->qty;
+                    $descountTotal += ($orderProduct->product->price -  ($orderProduct->product->price - ($orderProduct->product->price * $orderProduct->product->discount / 100))) * $orderProduct->qty;
                 ?>
             @endif
         @endif
@@ -96,7 +96,7 @@
                 </div>
               </div>
               <div class="col-md-2">
-                <input style="height: 39px; width: 100%" type="text" name="productPrice" data-order_id="{{$order->id}}" data-id="{{$orderProduct->subproduct_id}}" value="{{$orderProduct->subproduct->price_lei}}">
+                <input style="height: 39px; width: 100%" type="text" name="productPrice" data-order_id="{{$order->id}}" data-id="{{$orderProduct->subproduct_id}}" value="{{$orderProduct->subproduct->price}}">
               </div>
               <div class="col-lg-2 col-6 justify-content-center ngh">
                 <div class="plusminus" style="width: 100%;">
@@ -110,10 +110,10 @@
               </div>
 
               <div class="col-md-1">
-                {{ $orderProduct->subproduct->price_lei * $orderProduct->qty}}
+                {{ $orderProduct->subproduct->price * $orderProduct->qty}}
               </div>
               <div class="col-md-2">
-                {{ ($orderProduct->subproduct->price_lei - ($orderProduct->subproduct->price_lei * $orderProduct->subproduct->discount / 100)) * $orderProduct->qty}}
+                {{ ($orderProduct->subproduct->price - ($orderProduct->subproduct->price * $orderProduct->subproduct->discount / 100)) * $orderProduct->qty}}
               </div>
             </div>
         @else
@@ -136,7 +136,7 @@
                 </div>
               </div>
               <div class="col-md-2">
-                <input style="height: 39px; width: 100%" type="text" name="productPrice" data-order_id="{{$order->id}}" data-id="{{$orderProduct->product_id}}" value="{{$orderProduct->product->price_lei}}">
+                <input style="height: 39px; width: 100%" type="text" name="productPrice" data-order_id="{{$order->id}}" data-id="{{$orderProduct->product_id}}" value="{{$orderProduct->product->price}}">
               </div>
               <div class="col-lg-2 col-6 justify-content-center ngh">
                 <div class="plusminus" style="width: 100%;">
@@ -150,10 +150,10 @@
               </div>
 
               <div class="col-md-1 col-6">
-                {{ $orderProduct->product->price_lei * $orderProduct->qty}}
+                {{ $orderProduct->product->price * $orderProduct->qty}}
               </div>
               <div class="col-md-2">
-                {{ ($orderProduct->product->price_lei - ($orderProduct->product->price_lei * $orderProduct->product->discount / 100)) * $orderProduct->qty}}
+                {{ ($orderProduct->product->price - ($orderProduct->product->price * $orderProduct->product->discount / 100)) * $orderProduct->qty}}
               </div>
             </div>
         @endif
@@ -169,7 +169,7 @@
               </div>
               <div class="col-lg-3 col-md-12">
                 <div class="imgCartItem">
-                  @if ($orderSet->set()->first())
+                  @if ($orderSet->set()->first()->mainPhoto()->first())
                   <img src="/images/sets/og/{{ $orderSet->set()->first()->mainPhoto()->first()->src }}" alt="">
                   @else
                   <img src="{{ asset('/images/no-image.png') }}" alt="">

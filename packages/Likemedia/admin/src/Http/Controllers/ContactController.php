@@ -25,7 +25,7 @@ class ContactController extends Controller
           'sign' => 'mimes:jpeg,jpg,png'
         ));
 
-        foreach ($request->all() as $key => $value):
+        foreach ($request->except('_token') as $key => $value):
             $this->setContactInfo($key, $value);
         endforeach;
 
@@ -44,7 +44,7 @@ class ContactController extends Controller
       $contact = Contact::where('title', $field)->first();
 
       if(count($contact) > 0) {
-        $contact_translation = ContactTranslation::where('contact_id', $contact->id)->delete();
+        $contact->translations()->delete();
 
           if($field == 'sign') {
             $name = time() . '-' . $value->getClientOriginalName();
@@ -56,8 +56,6 @@ class ContactController extends Controller
             foreach ($value as $contact_value):
                 if($contact_value != '') {
                     $contact->translations()->create([
-                        'contact_id' => $contact->id,
-                        'lang_id' => 1,
                         'value' => $contact_value
                     ]);
                 }
@@ -65,8 +63,6 @@ class ContactController extends Controller
           } else {
             if($value != '') {
                 $contact->translations()->create([
-                    'contact_id' => $contact->id,
-                    'lang_id' => 1,
                     'value' => $value
                 ]);
             }
@@ -75,20 +71,19 @@ class ContactController extends Controller
     }
 
     private function setContactInfoMulti($request, $request_key) {
-      $contact = Contact::where('title', substr($request_key, 0, -3))->first();
-      foreach ($request->get($request_key) as $key => $value) {
-        if(count($contact) > 0) {
-          ContactTranslation::where('id', $key)->where('contact_id', $contact->id)->delete();
-          foreach ($this->langs as $lang):
-              if($value != '' && $request_key == $contact->title.'_'.$lang->lang) {
-                $contact->translations()->create([
-                    'contact_id' => $contact->id,
-                    'lang_id' => $lang->id,
-                    'value' => $value
-                ]);
-              }
-          endforeach;
+        $contact = Contact::where('title', substr($request_key, 0, -3))->first();
+          foreach ($request->get($request_key) as $key => $value) {
+            if(count($contact) > 0) {
+              ContactTranslation::where('id', $key)->where('contact_id', $contact->id)->delete();
+              foreach ($this->langs as $lang):
+                  if($value != '' && $request_key == $contact->title.'_'.$lang->lang) {
+                    $contact->translations()->create([
+                        'lang_id' => $lang->id,
+                        'value' => $value
+                    ]);
+                  }
+              endforeach;
+            }
         }
-      }
     }
 }

@@ -56,13 +56,12 @@
                 </div>
 
 
-                @foreach ($langs as $lang)
+                @foreach ($langs as $key => $lang)
 
-                    <div class="tab-content {{ $loop->first ? ' active-content' : '' }}" id={{ $lang->lang }}>
+                    <div class="tab-content {{ $key == 0 ? ' active-content' : '' }}" id={{ $lang->lang }}>
                         <div class="part left-part">
 
                             <ul style="padding: 25px 0;">
-
                                 <li>
                                     <label>{{trans('variables.title_table')}} [{{ $lang->lang }}]</label>
                                     <input type="text" name="title_{{ $lang->lang }}" class="name" data-lang="{{ $lang->lang }}"
@@ -110,12 +109,9 @@
 
                                     @foreach($post->translations as $translation)
                                     @if ($translation->lang_id == $lang->id)
-
                                     <img id="upload-img" src="/images/posts/{{ $translation->image }}"  alt="" width="200px">
                                      @endif
                                      @endforeach
-                                    {{-- <img id="upload-img" src="/images/posts/{{ $post->image }}" alt=""> --}}
-                                    {{-- <img id="upload-img" src="" alt="" width="200px"> --}}
                                 </li>
                                 <li>
                                     <li>
@@ -143,18 +139,6 @@
 
                         <div class="part right-part">
                             <ul>
-                                <li>
-                                    <label>URL< [{{ $lang->lang }}]/label>
-                                    <input type="text" name="url_{{ $lang->lang }}"
-                                           class="slug form-control"
-                                           id="slug-{{ $lang->lang }}"
-                                           @foreach($post->translations as $translation)
-                                           @if ($translation->lang_id == $lang->id)
-                                           value="{{ $translation->url }}"
-                                            @endif
-                                            @endforeach
-                                    >
-                                </li>
 
                                 <li>
                                     <label>Slug [{{ $lang->lang }}]</label>
@@ -215,26 +199,6 @@
                                 </li>
                             </ul>
                         </div>
-
-
-                        <div style="margin-top: 25px;" class="part right-part">
-
-                            <label>Tags [{{ $lang->lang }}]</label>
-
-                            <li>
-                                @foreach($tags as $tag)
-                                    @if($tag->lang_id == $lang->id)
-                                        <input type="checkbox" {{$post->id == $tag->post_id ? 'checked' : ''}} name="tags_{{ $lang->lang }}[]" value="{{ $tag->name }}">{{ $tag->name }}
-                                    @endif
-                                @endforeach
-                            </li>
-
-                            <ul>
-                                <button class="btn btn-primary btn-sm tag">+</button>
-                                <input type="text" name="tag_{{ $lang->lang }}[]" class="tag_{{ $lang->lang }}" />
-                            </ul>
-                        </div>
-
 
                     </div>
                 @endforeach

@@ -28,7 +28,6 @@
                 <tr>
                     <th>#</th>
                     <th>{{trans('variables.title_table')}}</th>
-                    <th>Childs</th>
                     <th>{{trans('variables.position_table')}}</th>
                     <th>{{trans('variables.active_table')}}</th>
                     <th>{{trans('variables.edit_table')}}</th>
@@ -43,14 +42,6 @@
                     </td>
                     <td>
                         {{ $brand->translation()->first()->name ?? trans('variables.another_name') }}
-                    </td>
-                    <td>
-                        <?php $brandList =  getBrandsChilds($brand->id); ?>
-                        @if (!empty($brandList))
-                            @foreach ($brandList as $key => $brandItem)
-                                <li> <a href="{{ url('/back/brands/'. $brandItem->brand_id .'/edit') }}">{{ $brandItem->name }}</a> </li>
-                            @endforeach
-                        @endif
                     </td>
                     <td class="dragHandle" nowrap style="cursor: move;">
                         <a class="top-pos" href=""><i class="fa fa-arrow-up"></i></a>

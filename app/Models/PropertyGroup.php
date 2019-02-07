@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PropertyGroup extends Model
 {
-    protected $table = 'properties_groups';
+    protected $table = 'property_groups';
 
     public function translations() {
         return $this->hasMany(PropertyGroupTranslation::class, 'property_group_id');

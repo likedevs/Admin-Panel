@@ -14,14 +14,13 @@ class PostTranslation extends Model
         'title',
         'body',
         'slug',
-        'url',
-        'meta_title',
-        'meta_keywords',
-        'meta_description',
         'video',
         'image',
         'image_title',
-        'image_alt'
+        'image_alt',
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
     ];
 
     public function post()

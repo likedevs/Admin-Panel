@@ -35,9 +35,8 @@
                     <li>
                         <label>Categorie</label>
                         <select name="category_id">
-                        <option value="0">---</option>
                         @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ Request::get('category') == $category->id ? 'selected' : '' }}>{{ $category->translation()->first()->name }}</option>
+                        <option value="{{ $category->id }}" {{ Request::get('category') == $category->id ? 'selected' : '' }}>{{ $category->translation($lang->id)->first()->name }}</option>
                         @endforeach
                         </select>
                         @if (Request::get('category'))
@@ -60,7 +59,7 @@
                                   @foreach($sets as $set)
                                   <label>
                                       <input class="checkbox" type="checkbox" name="set_id[]" value="{{ $set->id }}" {{ Request::get('set') == $set->id ? 'checked' : '' }}>
-                                      <span>{{ $set->translation()->first()->name }}</span>
+                                      <span>{{ $set->translation($lang->id)->first()->name }}</span>
                                   </label>
                                 @endforeach
                               </div>
@@ -76,7 +75,7 @@
                         <select name="prommotion_id">
                         <option value="0">---</option>
                         @foreach($promotions as $promotion)
-                        <option value="{{ $promotion->id }}">{{ $promotion->translation()->first()->name }}</option>
+                        <option value="{{ $promotion->id }}">{{ $promotion->translation($lang->id)->first()->name }}</option>
                         @endforeach
                         </select>
                     </li>
@@ -131,12 +130,6 @@
             </div>
             <div class="part right-part">
                 <ul>
-                    <li>
-                        <label>Slug [{{ $lang->lang }}]</label>
-                        <input type="text" name="slug_{{ $lang->lang }}" class="slug"
-                            id="slug-{{ $lang->lang }}">
-                    </li>
-                    <hr>
                     <h6>Seo texts</h6>
                     <li>
                         <label>{{trans('variables.meta_title_page')}} [{{ $lang->lang }}]</label>
@@ -163,6 +156,10 @@
         <div class="part left-part">
         <ul>
             <li>
+                <label>Alias</label>
+                <input type="text" name="alias" id="slug-ro">
+            </li>
+            <li>
                 <label>Code</label>
                 <input type="text" name="code">
             </li>
@@ -171,15 +168,11 @@
                 <input type="number" name="stock"  step="any">
             </li>
             <li>
-                <label>Price (EURO)</label>
+                <label>Price</label>
                 <input type="number" name="price" value="">
             </li>
             <li>
-                <label>Price (LEI)</label>
-                <input type="number" name="price_lei" value="">
-            </li>
-            <li>
-                <label>Disount</label>
+                <label>Discount</label>
                 <input type="number" name="discount" value="">
             </li>
             <li>

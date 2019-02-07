@@ -68,18 +68,18 @@ class ProductPropertiesController extends Controller
     public function store(Request $request)
     {
         $toValidate = [];
-        $toValidate['key'] = 'required|max:255|unique:product_properies';
+        $toValidate['key'] = 'required|max:255|unique:product_properties';
         foreach ($this->langs as $lang){
             $toValidate['name_'.$lang->lang] = 'required|max:255';
         }
 
         $validator = $this->validate($request, $toValidate);
 
-        $multilingual = 0;
-        if ($request->get('multilingual') == 'on') { $multilingual = 1; }
+        $filter = 0;
+        if ($request->get('filter') == 'on') { $filter = 1; }
 
         $property = new ProductProperty();
-        $property->multilingual = $multilingual;
+        $property->filter = $filter;
         $property->type = $request->type;
         $property->key = $request->key;
         $property->group_id = $request->group_id;
@@ -194,11 +194,11 @@ class ProductPropertiesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $multilingual = 0;
-        if ($request->get('multilingual') == 'on') { $multilingual = 1; }
+        $filter = 0;
+        if ($request->get('filter') == 'on') { $filter = 1; }
 
         $property = ProductProperty::findOrFail($id);
-        $property->multilingual = $multilingual;
+        $property->filter = $filter;
         $property->type = $request->type;
         $property->key = $request->key;
         $property->group_id = $request->group_id;

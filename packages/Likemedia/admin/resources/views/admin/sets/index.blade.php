@@ -11,7 +11,7 @@
     </ol>
 </nav>
 <div class="title-block">
-    <h3 class="title">Seturi <small>din colectia "{{ $collection->translation()->first()->name }}"</small> </h3>
+    <h3 class="title">Seturi <small>din colectia "{{ $collection->translation($lang->id)->first()->name }}"</small> </h3>
     @include('admin::admin.list-elements', [
     'actions' => [
     trans('variables.add_element') => route('sets.create').'?collection='.Request::segment(4),

@@ -36,10 +36,10 @@
             <th>
                 {{ $module->name ?? trans('variables.another_name')}}
             </th>
-            <th class="dragHandle" nowrap style="cursor: move;">
+            <td class="dragHandle" nowrap style="cursor: move;">
                 <a class="top-pos" href=""><i class="fa fa-arrow-up"></i></a>
                 <a class="bottom-pos" href=""><i class="fa fa-arrow-down"></i></a>
-            </th>
+            </td>
             <th>
                 <a href="{{ route('modules.edit', $module->id) }}">
                 <i class="fa fa-edit"></i>

@@ -1,7 +1,6 @@
 <?php
 
 $prefix = session('applocale');
-$lang = App\Models\Lang::where('default', 1)->first();
 
 Route::get('/', 'PagesController@index')->name('wellcome');
 
@@ -127,7 +126,6 @@ Route::group(['prefix' => $prefix], function() {
 
     Route::post('/order', 'OrderController@index');
 
-    // Route::get('/product', 'ProductsController@productsList')->name('product');
     Route::get('/catalog/outlet', 'ProductsController@discount')->name('products-outlet');
     Route::get('/catalog/arrival', 'ProductsController@arrival')->name('products-arrival');
     Route::get('/catalog', 'ProductsController@productsList')->name('products-categories-all');

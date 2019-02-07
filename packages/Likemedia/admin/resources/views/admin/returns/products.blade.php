@@ -1,6 +1,5 @@
 @if (!empty($orders))
   <label>Выберите товар из доступных заказов</label>
-
   <select class="form-control" name="orderProducts_return" data-return_id="{{!empty($return) ? $return->id : '0'}}" onfocus="this.setAttribute('PrvSelectedValue',this.value);">
     <option value="" disabled selected>Выберите товар из доступных заказов</option>
       @foreach ($orders as $order)

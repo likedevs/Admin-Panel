@@ -3,24 +3,24 @@
     <i class="fa {{ $m->icon }}"></i> {{ $m->name ?? '' }} <i class="fa arrow"></i>
     </a>
     <ul class="drop-hd">
-        @if (count(SelectProdsCatsTree(1, 0)) > 0)
-        @foreach (SelectProdsCatsTree(1, 0) as $key => $category)
+        @if (count(SelectProdsCatsTree($lang->id, 0)) > 0)
+        @foreach (SelectProdsCatsTree($lang->id, 0) as $key => $category)
         <li>
             <ul class="drop-hd">
-                @if (count(SelectProdsCatsTree(1, $category->id)) > 0)
+                @if (count(SelectProdsCatsTree($lang->id, $category->id)) > 0)
                 <li>
                     <a class="drop-down"
                         href="{{ route('products.category', [$category->product_category_id]) }}">&ndash; {{ $category->name }}
-                    <i class="fa {{ !empty(SelectProdsCatsTree(1, $category->id)) ? 'arrow' : '' }}"></i> </a>
+                    <i class="fa {{ !empty(SelectProdsCatsTree($lang->id, $category->id)) ? 'arrow' : '' }}"></i> </a>
                     <ul class="drop-hd">
-                        @foreach (SelectProdsCatsTree(1, $category->product_category_id) as $key => $category)
-                        @if (count(SelectProdsCatsTree(1, $category->id)) > 0)
+                        @foreach (SelectProdsCatsTree($lang->id, $category->product_category_id) as $key => $category)
+                        @if (count(SelectProdsCatsTree($lang->id, $category->id)) > 0)
                         <li>
                             <a class="drop-down"
                                 href="{{ route('products.category', [$category->product_category_id]) }}">&ndash;&ndash; {{ $category->name }}
                             <i class="fa arrow"></i></a>
                             <ul class="drop-hd">
-                                @foreach (SelectProdsCatsTree(1, $category->product_category_id) as $key => $category)
+                                @foreach (SelectProdsCatsTree($lang->id, $category->product_category_id) as $key => $category)
                                 <li>
                                     <a href="{{ route('products.category', [$category->product_category_id]) }}">&ndash;&ndash;&ndash; {{ $category->name }} </a>
                                 </li>

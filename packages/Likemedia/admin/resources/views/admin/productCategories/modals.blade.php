@@ -16,43 +16,36 @@
                         @include('admin::admin.alerts')
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             @if (!empty($langs))
-                            @foreach ($langs as $key => $lang)
+                            @foreach ($langs as $key => $langOne)
                             <li class="nav-item">
-                                <a href="#{{ $lang->lang }}"
+                                <a href="#{{ $langOne->lang }}"
                                     class="nav-link  {{ $key == 0 ? ' open active' : '' }}"
-                                    data-target="#{{ $lang->lang }}">{{ $lang->lang }}</a>
+                                    data-target="#{{ $langOne->lang }}">{{ $langOne->lang }}</a>
                             </li>
                             @endforeach
                             @endif
                         </ul>
                     </div>
-                    @foreach ($langs as $lang)
-                    <div class="tab-content {{ $loop->first ? ' active-content' : '' }}"
-                        id={{ $lang->
-                        lang }}>
+                    @foreach ($langs as $key => $langOne)
+                    <div class="tab-content {{ $key  == 0 ? ' active-content' : '' }}"
+                        id={{ $langOne->lang }}>
                         <div class="part full-part">
                             <ul>
                                 <li>
-                                    <label>{{trans('variables.title_table')}}</label>
-                                    <input type="text" name="name_{{ $lang->lang }}" id="name-{{ $lang->lang }}"
+                                    <label>{{trans('variables.title_table')}} [{{ $langOne->lang }}]</label>
+                                    <input type="text" name="name_{{ $langOne->lang }}" id="name-{{ $langOne->lang }}"
                                         class="name form-control" class="name"
-                                        data-lang="{{ $lang->lang }}">
-                                </li>
-                                <li>
-                                    <label>Slug</label>
-                                    <input type="text" name="slug_{{ $lang->lang }}" id="slug-{{ $lang->lang }}"
-                                        class="slug form-control"
-                                        data-lang="{{ $lang->lang }}">
+                                        data-lang="{{ $langOne->lang }}">
                                 </li>
                             </ul>
                         </div>
                     </div>
                     @endforeach
-                    <div class="">
+                    <div class="part">
                         <ul>
                             <li>
                                 <label>Alias</label>
-                                <input type="text" name="alias" class="form-control" >
+                                <input type="text" name="alias" class="form-control" id="slug-{{ $lang->lang }}">
                             </li>
                             <li>
                                 <input style="margin-top: 10px;" type="submit" class="btn btn-primary" value="{{trans('variables.save_it')}}">
@@ -124,7 +117,7 @@
                                         <select class="form-control" name="add" autocomplete="off">
                                             <option value="0">Categoria nou creata</option>
                                             @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->translation()->first()->name }}</option>
+                                            <option value="{{ $category->id }}">{{ $category->translation($lang->id)->first()->name }}</option>
                                             @endforeach
                                         </select>
                                         @endif
@@ -169,7 +162,7 @@
                                     @if (!empty($menus))
                                     <select class="form-control" name="add">
                                         @foreach($menus as $category)
-                                        <option value="{{ $category->id }}">{{ !is_null($category->translation()->first()) ?  $category->translation()->first()->name : '' }}</option>
+                                        <option value="{{ $category->id }}">{{ !is_null($category->translation($lang->id)->first()) ?  $category->translation($lang->id)->first()->name : '' }}</option>
                                         @endforeach
                                     </select>
                                     @endif
@@ -214,7 +207,7 @@
                                     <select class="form-control" name="add">
                                         <option value="0">Sterge artcolele</option>
                                         @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->translation()->first()->name }}</option>
+                                        <option value="{{ $category->id }}">{{ $category->translation($lang->id)->first()->name }}</option>
                                         @endforeach
                                     </select>
                                     @endif

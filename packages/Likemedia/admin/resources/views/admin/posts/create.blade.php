@@ -107,24 +107,11 @@
                         <div class="part right-part">
                             <ul>
                                 <li>
-                                    <label>URL [{{ $lang->lang }}]</label>
-                                    <input type="text" name="url_{{ $lang->lang }}"
+                                    <label>Slug [{{ $lang->lang }}]</label>
+                                    <input type="text" name="slug_{{ $lang->lang }}"
                                            class="slug form-control"
                                            id="slug-{{ $lang->lang }}">
                                 </li>
-
-                                <li>
-                                    <label>Slug [{{ $lang->lang }}]</label>
-                                    <input class="slug"  type="text" name="slug_{{ $lang->lang }}">
-
-                                </li>
-
-
-                                <li>
-                                    <label>{{trans('variables.h1_title_page')}} [{{ $lang->lang }}]</label>
-                                    <input type="text" name="meta_h1_{{ $lang->lang }}">
-                                </li>
-
 
                                 <li>
                                     <label>{{trans('variables.meta_title_page')}} [{{ $lang->lang }}]</label>
@@ -142,28 +129,6 @@
                                 </li>
                             </ul>
                         </div>
-
-
-                        <div style="margin-top: 25px;" class="part right-part">
-                            <label>Tags [{{ $lang->lang }}]</label>
-
-                            <li>
-                                @foreach($tags as $tag)
-                                    @if($tag->lang_id == $lang->id)
-                                        <input type="checkbox" name="tags_{{ $lang->lang }}[]" value="{{ $tag->name }}">{{ $tag->name }}
-                                    @endif
-                                @endforeach
-                            </li>
-
-
-                            <ul>
-                                <button class="btn btn-primary btn-sm tag">+</button>
-
-                                <input type="text" name="tag_{{ $lang->lang }}[]" class="tag_{{ $lang->lang }}" />
-
-                            </ul>
-                        </div>
-
 
                     </div>
                 @endforeach

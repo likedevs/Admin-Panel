@@ -43,3 +43,6 @@
 [27-Dec-2018 15:04:27 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/juliamd/public_html/app/Support/helpersNew.php on line 32
 [27-Dec-2018 15:04:29 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/juliamd/public_html/app/Support/helpersNew.php on line 32
 [27-Dec-2018 15:04:36 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/juliamd/public_html/app/Support/helpersNew.php on line 32
+[07-Feb-2019 10:15:46 UTC] PHP Parse error:  syntax error, unexpected '.' in /home/publicitate/public_html/laravel/app/Support/helpers.php on line 298
+[07-Feb-2019 10:15:49 UTC] PHP Parse error:  syntax error, unexpected '.' in /home/publicitate/public_html/laravel/app/Support/helpers.php on line 298
+[07-Feb-2019 10:42:58 UTC] PHP Parse error:  syntax error, unexpected '/' in /home/publicitate/public_html/laravel/app/Support/helpers.php on line 377

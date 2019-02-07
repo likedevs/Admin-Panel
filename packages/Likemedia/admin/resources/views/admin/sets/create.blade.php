@@ -89,25 +89,19 @@
 
         <ul class="part full-part">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <li>
-                        <label for="price">Price EUR</label>
+                        <label for="price">Price</label>
                         <input type="number" name="price" id="price"/>
                     </li>
                 </div>
-                <div class="col-md-3">
-                    <li>
-                        <label for="price">Price MDL</label>
-                        <input type="number" name="price_lei" id="price"/>
-                    </li>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <li>
                         <label for="discount">Discount %</label>
                         <input type="number" name="discount" id="discount"/>
                     </li>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <li>
                         <label for="discount">Atribuie la collectie</label>
                         <select name="collection_id">

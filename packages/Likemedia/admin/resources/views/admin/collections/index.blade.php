@@ -44,7 +44,7 @@
                             {{ $key + 1 }}
                         </td>
                         <td>
-                            {{ $collection->translation()->first()->name ?? trans('variables.another_name') }}
+                            {{ $collection->translation($lang->id)->first()->name ?? trans('variables.another_name') }}
                         </td>
                         <td>
                             @if ($collection->active == 1)
@@ -90,7 +90,7 @@
             @foreach($collections as $key => $collection)
                 <ul class="list-tree">
                     <li>
-                        <a href="{{ route('collections.edit', $collection->id) }}">- {{ $collection->translation()->first()->name }}</a>
+                        <a href="{{ route('collections.edit', $collection->id) }}">- {{ $collection->translation($lang->id)->first()->name }}</a>
                         @if (count($collection->sets()->get()) > 0)
                             <ol>
                                 @foreach ($collection->sets()->get() as $key => $set)

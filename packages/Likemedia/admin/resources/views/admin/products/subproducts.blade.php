@@ -67,12 +67,8 @@
       @endif
 
       <li>
-        <label for="">Price Euro<small>[insertable]</small> </label>
+        <label for="">Price <small>[insertable]</small> </label>
         <input type="number" class="form-control" name="subprod[{{$subproduct->id}}][price]" value="{{intval($subproduct->price)}}">
-      </li>
-      <li>
-        <label for="">Price Lei<small>[insertable]</small> </label>
-        <input type="number" class="form-control" name="subprod[{{$subproduct->id}}][price_lei]" value="{{intval($subproduct->price_lei)}}">
       </li>
       <li>
         <label for="">Discount %<small>[insertable]</small> </label>

@@ -4,8 +4,8 @@
     $notInStock = false;
     $promocodeDiscount = 0;
     $promocodeEror = true;
-    $deliveryPriceEuro = getContactInfo('deliveryPriceMdl')->translationByLanguage()->first()->value;
-    $thresholdEURO = getContactInfo('ThresholdMDl')->translationByLanguage()->first()->value;
+    $deliveryPriceEuro = !is_null(getContactInfo('deliveryPriceMdl')) ? getContactInfo('deliveryPriceMdl')->translationByLanguage()->first()->value : 0;
+    $thresholdEURO = !is_null(getContactInfo('ThresholdMDl')) ? getContactInfo('ThresholdMDl')->translationByLanguage()->first()->value : 0;
 @endphp
 
 @if (!empty($cartProducts))

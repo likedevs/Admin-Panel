@@ -32,9 +32,7 @@
                 <tr>
                     <th>#</th>
                     <th>{{trans('variables.title_table')}}</th>
-                    <th>URL</th>
-                    <th>Votes</th>
-                    <th>Rating</th>
+                    <th>Slug</th>
                     <th>{{trans('variables.edit_table')}}</th>
                     <th>{{trans('variables.delete_table')}}</th>
                 </tr>
@@ -49,13 +47,7 @@
                         <p>{{ $post->translation->first()->title }}</p>
                     </td>
                     <td>
-                        <p>{{ $post->translation->first()->url }}</p>
-                    </td>
-                    <td>
-                        {{ $post->votes }}
-                    </td>
-                    <td>
-                        {{ $post->rating }}
+                        <p>{{ $post->translation->first()->slug }}</p>
                     </td>
                     <td>
                         <a href="{{ route('posts.edit', $post->id) }}">

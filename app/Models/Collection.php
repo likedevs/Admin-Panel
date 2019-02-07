@@ -1,16 +1,14 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Collection extends Model
 {
+    
     protected $table = 'collections';
 
-    protected $fillable = [
-        'alias', 'banner', 'position', 'active'
-    ];
+    protected $fillable = ['alias', 'banner', 'position', 'active'];
 
     public function translations()
     {
@@ -19,12 +17,15 @@ class Collection extends Model
 
     public function translation($lang = 1)
     {
-        return $this->hasOne(CollectionTranslation::class, 'collection_id')->where('lang_id', $lang);
+        return $this->hasOne(CollectionTranslation::class , 'collection_id')
+            ->where('lang_id', $lang);
     }
 
     public function sets()
     {
-        return $this->hasMany(Set::class)->where('active', 1)->orderBy('position', 'asc');
+        return $this->hasMany(Set::class)
+            ->where('active', 1)
+            ->orderBy('position', 'asc');
     }
 
 }

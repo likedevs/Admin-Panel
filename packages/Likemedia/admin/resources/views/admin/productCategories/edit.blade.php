@@ -34,7 +34,7 @@
             lang }}>
             <div class="part full-part">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label>{{trans('variables.title_table')}}[{{ $lang->lang }}]</label>
                             <input type="text" name="name_{{ $lang->lang }}" class="form-control"
@@ -45,28 +45,6 @@
                             @endforeach
                             >
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>H1 Title [{{ $lang->lang }}]</label>
-                            <input type="text" name="h1_title_{{ $lang->lang }}" class="form-control"
-                            @foreach($menuItem->translations as $translation)
-                            @if ($translation->lang_id == $lang->id)
-                            value="{{ $translation->h1_title }}"
-                            @endif
-                            @endforeach
-                            >
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>Slug[{{ $lang->lang }}]</label>
-                        <input type="text" name="slug_{{ $lang->lang }}" class="form-control"
-                        @foreach($menuItem->translations as $translation)
-                        @if ($translation->lang_id == $lang->id)
-                        value="{{ $translation->url }}"
-                        @endif
-                        @endforeach
-                        >
                     </div>
                     <div class="col-md-12">
                         <label>Description[{{ $lang->lang }}]</label>
@@ -113,53 +91,18 @@
         </div>
         @endforeach
         @endif
-        {{-- <div class="part col-md-6">
-            <li class="image-wrapp form-group">
-                <label>Image</label>
-                <input type="file" name="img">
-                <input type="hidden" name="image_old" value="{{ $menuItem->img }}">
-                @if ($menuItem->img)
-                    <img id="upload-img" class="min-image" src="/images/categories/sm/{{ $menuItem->img }}">
-                @else
-                    <img id="upload-img" class="min-image"src="/images/no-image.png">
-                @endif
-            </li>
+
+        <div class="col-md-12 part full-part">
+            <ul>
+                <li>
+                    <div class="form-group">
+                        <label>Alias</label>
+                        <input class="text" type="text" name="alias" class="form-control" value="{{ $menuItem->alias }}">
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div class="part col-md-6">
-            <li class="image-wrapp form-group">
-                <label>Video (iframe)</label>
-                <input type="text" class="form-control" name="video" value="{{ $menuItem->video }}">
-                @if ($menuItem->video)
-                    {!! $menuItem->video !!}
-                @else
-                    <img id="upload-img" class="min-image"src="/images/no-video.gif">
-                @endif
-            </li>
-        </div> --}}
-        {{-- <div class="part col-md-6">
-            <li class="image-wrapp form-group">
-                <label>Banner 1</label>
-                <input type="file" name="banner_1">
-                <input type="hidden" name="banner_1_old" value="{{ $menuItem->banner_1 }}">
-                @if ($menuItem->banner_1)
-                    <img id="upload-img" class="min-image" src="/images/categories/sm/{{ $menuItem->banner_1 }}">
-                @else
-                    <img id="upload-img" class="min-image" src="/images/no-image.png">
-                @endif
-            </li>
-        </div>
-        <div class="part col-md-6">
-            <li class="image-wrapp form-group">
-                <label>Banner 2</label>
-                <input type="file" name="banner_2">
-                <input type="hidden" name="banner_2_old" value="{{ $menuItem->banner_2 }}">
-                @if ($menuItem->banner_2)
-                    <img id="upload-img" class="min-image" src="/images/categories/sm/{{ $menuItem->banner_2 }}">
-                @else
-                    <img id="upload-img" class="min-image" src="/images/no-image.png">
-                @endif
-            </li>
-        </div> --}}
+
         <div class="part col-md-6">
             <li>
                 <div class="form-group text-center alert-success">

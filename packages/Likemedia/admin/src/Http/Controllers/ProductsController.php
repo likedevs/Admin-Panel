@@ -99,10 +99,10 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        $toValidate = [];
+        $toValidate['alias'] = 'required|unique:products';
+
         foreach ($this->langs as $lang){
-            $toValidate['name_'.$lang->lang] = 'required|max:255|unique:product_translations,name';
-            $toValidate['slug_'.$lang->lang] = 'required|unique:product_translations,alias|max:255';
+            $toValidate['name_'.$lang->lang] = 'required|max:255|unique:products_translation,name';
         }
 
         $validator = $this->validate($request, $toValidate);
@@ -133,13 +133,11 @@ class ProductsController extends Controller
         $product = new Product();
         $product->category_id = $request->category_id;
         $product->promotion_id = $request->prommotion_id;
-        $product->alias = $request->slug_ro;
+        $product->alias = $request->alias;
         $product->stock = $request->stock;
         $product->code = $request->code;
         $product->actual_price = $request->price - ($request->price * $request->discount / 100);
         $product->price = $request->price;
-        $product->price_lei = $request->price_lei;
-        $product->actual_price_lei = $request->price_lei - ($request->price_lei * $request->discount / 100);
         $product->discount = $discount;
         $product->hit = $hit;
         $product->video = $videoName;
@@ -156,10 +154,8 @@ class ProductsController extends Controller
                 'lang_id' => $lang->id,
                 'name' => request('name_' . $lang->lang),
                 'body' => request('body_' . $lang->lang),
-                'alias' => request('slug_' . $lang->lang),
                 'description' => request('description_' . $lang->lang),
                 'body' => request('body_' . $lang->lang),
-                'seo_h1' => request('meta_h1_' . $lang->lang),
                 'seo_title' => request('meta_title_' . $lang->lang),
                 'seo_keywords' => request('meta_keywords_' . $lang->lang),
                 'seo_description' => request('meta_description_' . $lang->lang),
@@ -247,9 +243,10 @@ class ProductsController extends Controller
     public function update(Request $request, $id)
     {
         $toValidate['qty'] = 'numeric';
+        $toValidate['alias'] = 'required';
+
         foreach ($this->langs as $lang){
             $toValidate['name_'.$lang->lang] = 'required|max:255';
-            $toValidate['slug_'.$lang->lang] = 'required|max:255';
         }
 
         $validator = $this->validate($request, $toValidate);
@@ -292,13 +289,11 @@ class ProductsController extends Controller
         }
 
         $product->category_id = $request->category_id;
-        $product->alias = $request->slug_ro;
+        $product->alias = $request->alias;
         $product->stock = $request->stock;
         $product->code = $request->code;
         $product->price = $request->price;
-        $product->price_lei = $request->price_lei;
         $product->actual_price = $request->price - ($request->price * $request->discount / 100);
-        $product->actual_price_lei = $request->price_lei - ($request->price_lei * $request->discount / 100);
         $product->discount = $discount;
         $product->hit = $hit;
         $product->video = $videoName;
@@ -315,10 +310,8 @@ class ProductsController extends Controller
             $product->translations()->create([
                 'lang_id' => $lang->id,
                 'name' => request('name_' . $lang->lang),
-                'alias' => request('slug_' . $lang->lang),
                 'description' => request('description_' . $lang->lang),
                 'body' => request('body_' . $lang->lang),
-                'seo_h1' => request('meta_h1_' . $lang->lang),
                 'seo_title' => request('meta_title_' . $lang->lang),
                 'seo_keywords' => request('meta_keywords_' . $lang->lang),
                 'seo_description' => request('meta_description_' . $lang->lang),
@@ -399,9 +392,7 @@ class ProductsController extends Controller
             foreach (request('subprod') as $key => $subprod) {
                 $product->subproducts()->where('id', $key)->update([
                     'price' => strlen($product->price) > 0 ? $product->price : @$subprod['price'],
-                    'price_lei' => strlen($product->price_lei) > 0 ? $product->price_lei : @$subprod['price_lei'],
                     'actual_price' => strlen($product->actual_price) > 0 ? $product->actual_price : @$subprod['price'] - (@$subprod['price'] * @$subprod['discount'] / 100),
-                    'actual_price_lei' => strlen($product->actual_price_lei) > 0 ? $product->actual_price_lei : @$subprod['price_lei'] - (@$subprod['price_lei'] * @$subprod['discount'] / 100),
                     'discount' => strlen($product->discount) > 0 ? $product->discount : @$subprod['discount'],
                     'stock' => strlen($product->stock) > 0 ? $product->stock : @$subprod['stock'],
                 ]);
@@ -427,7 +418,6 @@ class ProductsController extends Controller
                 $set->collection_id = $collectionId;
                 $set->alias = $product->alias;
                 $set->price = $product->price;
-                $set->price_lei = $product->price_lei;
                 $set->position = 0;
                 $set->active = 1;
                 $set->save();
@@ -544,13 +534,12 @@ class ProductsController extends Controller
             ]);
         }else{
             $subprod = $product->subproducts()->create([
+                'active' => 1,
                 'code' => $product->id.'-'.$x,
                 'combination_id' => $combination->id,
                 'combination' => json_encode($combinationJSON),
                 'price' => strlen($product->price) > 0 ? $product->price : 0,
-                'price_lei' => strlen($product->price_lei) > 0 ? $product->price_lei : 0,
                 'actual_price' => strlen($product->actual_price) > 0 ? $product->actual_price : 0,
-                'actual_price_lei' => strlen($product->actual_price_lei) > 0 ? $product->actual_price_lei : 0,
                 'discount' => strlen($product->discount) > 0 ? $product->discount : 0,
                 'stock' => strlen($product->stock) > 0 ? $product->stock : 0,
             ]);
@@ -837,12 +826,13 @@ class ProductsController extends Controller
 
         if (!empty($properties)) {
             foreach ($properties as $key => $property) {
+
                 if (is_array($property)) {
                     $property = json_encode($property);
                 }
                 $propertyValues = PropertyValue::create([
                     'property_id' => $key,
-                    'product_id' => $productId,
+                    'product_id' => intval($productId),
                     'value_id' => $property
                 ]);
 
@@ -862,6 +852,7 @@ class ProductsController extends Controller
                         ]);
                     }
                 }else{
+                    // dd($propertyValues->id);
                     PropertyValueTranslation::create([
                         'property_values_id' => $propertyValues->id,
                         'lang_id' => 0,

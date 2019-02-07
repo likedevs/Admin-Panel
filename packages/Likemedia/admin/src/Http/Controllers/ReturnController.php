@@ -687,13 +687,13 @@ class ReturnController extends Controller
       $amount = 0;
       foreach ($cartProducts as $key => $cartProduct):
           if($cartProduct->subproduct) {
-              $price = $cartProduct->subproduct->price_lei - ($cartProduct->subproduct->price_lei * $cartProduct->subproduct->discount / 100);
+              $price = $cartProduct->subproduct->price - ($cartProduct->subproduct->price * $cartProduct->subproduct->discount / 100);
 
               if($price) {
                 $amount +=  $price * $cartProduct->qty;
               }
           } else {
-              $price = $cartProduct->product->price_lei - ($cartProduct->product->price_lei * $cartProduct->product->discount / 100);
+              $price = $cartProduct->product->price - ($cartProduct->product->price * $cartProduct->product->discount / 100);
 
               if($price) {
                 $amount +=  $price * $cartProduct->qty;

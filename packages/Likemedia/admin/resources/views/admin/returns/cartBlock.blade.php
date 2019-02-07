@@ -8,12 +8,12 @@
     @foreach ($return->returnProductsNoSet()->get() as $key => $returnProduct)
 
         @if ($returnProduct->product)
-        <?php $price = $returnProduct->subproduct->price_lei - ($returnProduct->subproduct->price_lei * $returnProduct->subproduct->discount / 100); ?>
+        <?php $price = $returnProduct->subproduct->price - ($returnProduct->subproduct->price * $returnProduct->subproduct->discount / 100); ?>
 
             @if ($price)
                 <?php
                     $amount +=  $price * $returnProduct->qty;
-                    $descountTotal += ($returnProduct->subproduct->price_lei -  ($returnProduct->subproduct->price_lei - ($returnProduct->subproduct->price_lei * $returnProduct->subproduct->discount / 100))) * $returnProduct->qty;
+                    $descountTotal += ($returnProduct->subproduct->price -  ($returnProduct->subproduct->price - ($returnProduct->subproduct->price * $returnProduct->subproduct->discount / 100))) * $returnProduct->qty;
                 ?>
             @endif
 
@@ -86,7 +86,7 @@
                   </div>
                 </div>
                 <div class="col-md-2">
-                  {{$returnProduct->subproduct->price_lei}}
+                  {{$returnProduct->subproduct->price}}
                 </div>
                 <div class="col-lg-2 col-6 justify-content-center ngh">
                   <div class="plusminus" style="width: 100%;">
@@ -100,10 +100,10 @@
                 </div>
 
                 <div class="col-md-1 col-6">
-                  {{ $returnProduct->subproduct->price_lei * $returnProduct->qty}}
+                  {{ $returnProduct->subproduct->price * $returnProduct->qty}}
                 </div>
                 <div class="col-md-2">
-                  {{ ($returnProduct->subproduct->price_lei - ($returnProduct->subproduct->price_lei * $returnProduct->subproduct->discount / 100)) * $returnProduct->qty}}
+                  {{ ($returnProduct->subproduct->price - ($returnProduct->subproduct->price * $returnProduct->subproduct->discount / 100)) * $returnProduct->qty}}
                 </div>
               </div>
           @else
@@ -125,7 +125,7 @@
                   </div>
                 </div>
                 <div class="col-md-2">
-                  {{$returnProduct->product->price_lei}}
+                  {{$returnProduct->product->price}}
                 </div>
                 <div class="col-lg-2 col-6 justify-content-center ngh">
                   <div class="plusminus" style="width: 100%;">
@@ -139,10 +139,10 @@
                 </div>
 
                 <div class="col-md-1 col-6">
-                  {{ $returnProduct->product->price_lei * $returnProduct->qty}}
+                  {{ $returnProduct->product->price * $returnProduct->qty}}
                 </div>
                 <div class="col-md-2">
-                  {{ ($returnProduct->product->price_lei - ($returnProduct->product->price_lei * $returnProduct->product->discount / 100)) * $returnProduct->qty}}
+                  {{ ($returnProduct->product->price - ($returnProduct->product->price * $returnProduct->product->discount / 100)) * $returnProduct->qty}}
                 </div>
               </div>
           @endif
@@ -158,7 +158,7 @@
               </div>
               <div class="col-lg-3 col-md-12">
                 <div class="imgCartItem">
-                  @if ($returnSet->set()->first())
+                  @if ($returnSet->set()->first()->mainPhoto()->first())
                   <img src="/images/sets/og/{{ $returnSet->set()->first()->mainPhoto()->first()->src }}" alt="">
                   @else
                   <img src="{{ asset('/images/no-image.png') }}" alt="">
@@ -215,7 +215,7 @@
                   </div>
                 </div>
                 <div class="col-md-2">
-                  {{$returnProduct->subproduct->price_lei}}
+                  {{$returnProduct->subproduct->price}}
                 </div>
                 <div class="col-lg-2 col-6 justify-content-center ngh">
                   {{$returnProduct->qty}}
@@ -225,10 +225,10 @@
                 </div>
 
                 <div class="col-md-1 col-6">
-                  {{ $returnProduct->subproduct->price_lei * $returnProduct->qty}}
+                  {{ $returnProduct->subproduct->price * $returnProduct->qty}}
                 </div>
                 <div class="col-md-2">
-                  {{ ($returnProduct->subproduct->price_lei - ($returnProduct->subproduct->price_lei * $returnProduct->subproduct->discount / 100)) * $returnProduct->qty}}
+                  {{ ($returnProduct->subproduct->price - ($returnProduct->subproduct->price * $returnProduct->subproduct->discount / 100)) * $returnProduct->qty}}
                 </div>
               </div>
             @endforeach

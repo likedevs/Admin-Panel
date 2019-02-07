@@ -3,9 +3,9 @@
       $amount = 0;
       $promocodeDicount = @$_COOKIE['promocode'];
       $promocodeDiscount = 0;
-      $deliveryPriceEuro = getContactInfo('deliveryPriceMdl')->translationByLanguage()->first()->value;
-      $thresholdEURO = getContactInfo('ThresholdMDL')->translationByLanguage()->first()->value;
-      $phone = getContactInfo('phone')->translationByLanguage()->first()->value;
+      $deliveryPriceEuro = !is_null(getContactInfo('deliveryPriceMdl')) ? getContactInfo('deliveryPriceMdl')->translationByLanguage()->first()->value : 0;
+      $thresholdEURO = !is_null(getContactInfo('ThresholdMDl')) ? getContactInfo('ThresholdMDl')->translationByLanguage()->first()->value : 0;
+      $phone = !is_null(getContactInfo('phone')->translation($lang->id)) ? getContactInfo('phone')->translation($lang->id)->value : '';
 
 @endphp
 

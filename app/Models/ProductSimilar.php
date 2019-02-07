@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductSimilar extends Model
 {
-  protected $table = 'products_similar';
+  protected $table = 'similar_products';
 
     protected $fillable = ['category_id'];
 }

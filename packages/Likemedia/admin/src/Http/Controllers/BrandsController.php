@@ -16,14 +16,14 @@ class BrandsController extends Controller
 {
     public function index()
     {
-        $brands = Brand::with('translation')->orderBy('position', 'asc')->where('parent_id', 0)->get();
+        $brands = Brand::with('translation')->orderBy('position', 'asc')->get();
 
         return view('admin::admin.brands.index', compact('brands'));
     }
 
     public function create()
     {
-        $allBrands = Brand::where('parent_id', 0)->get();
+        $allBrands = Brand::get();
 
         return view('admin::admin.brands.create', compact('allBrands'));
     }
@@ -63,18 +63,14 @@ class BrandsController extends Controller
         $brand->alias = str_slug(request('title_ro'));
         $brand->active = 1;
         $brand->position = 1;
-        $brand->img = $name;
-        $brand->picture  = $picture;
-        $brand->parent_id  = request('parent_id');
+        $brand->image = $name;
+        $brand->logo  = $picture;
         $brand->save();
 
         foreach ($this->langs as $lang):
             $brand->translations()->create([
                 'lang_id' => $lang->id,
                 'name' => request('title_' . $lang->lang),
-                'grapes' => request('grapes_' . $lang->lang),
-                'production' => request('production_' . $lang->lang),
-                'temperature' => request('temperature_' . $lang->lang),
                 'description' => request('description_' . $lang->lang),
                 'banner' => $banner[$lang->lang],
                 'seo_text' => request('seo_text_' . $lang->lang),
@@ -97,7 +93,7 @@ class BrandsController extends Controller
     public function edit($id)
     {
         $brand = Brand::with('translations')->findOrFail($id);
-        $allBrands = Brand::where('parent_id', 0)->where('id', '!=', $id)->get();
+        $allBrands = Brand::where('id', '!=', $id)->get();
 
         return view('admin::admin.brands.edit', compact('brand', 'allBrands', 'translations'));
     }
@@ -142,9 +138,8 @@ class BrandsController extends Controller
         $brand->alias = str_slug(request('title_ro'));
         $brand->active = 1;
         $brand->position = 1;
-        $brand->img = $name;
-        $brand->picture = $picture;
-        $brand->parent_id  = request('parent_id');
+        $brand->image = $name;
+        $brand->logo = $picture;
         $brand->save();
 
         $brand->translations()->delete();
@@ -153,9 +148,6 @@ class BrandsController extends Controller
             $brand->translations()->create([
                 'lang_id' => $lang->id,
                 'name' => request('title_' . $lang->lang),
-                'grapes' => request('grapes_' . $lang->lang),
-                'production' => request('production_' . $lang->lang),
-                'temperature' => request('temperature_' . $lang->lang),
                 'description' => request('description_' . $lang->lang),
                 'banner' => $banner[$lang->lang],
                 'seo_text' => request('seo_text_' . $lang->lang),

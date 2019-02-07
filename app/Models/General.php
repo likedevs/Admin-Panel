@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class General extends Model
 {
-    protected $table = 'general_info';
+    protected $table = 'generals';
 
-    protected $fillable = ['homephone', 'mobilephone', 'email', 'skype', 'address', 'facebook', 'odnoklassniki', 'gmail', 'youtube', 'maxaddress'];
+    protected $fillable = ['name'];
+
+    public function translations()
+    {
+        return $this->hasMany(GeneralTranslation::class);
+    }
+
+    public function translationByLanguage($lang = '1')
+    {
+        return $this->hasOne(GeneralTranslation::class)->where('lang_id', $lang);
+    }
 }

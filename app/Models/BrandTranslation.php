@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,12 +7,10 @@ class BrandTranslation extends Model
 {
     protected $table = 'brands_translation';
 
-    protected $fillable = [
-        'brand_id', 'lang_id', 'name', 'grapes', 'production', 'temperature', 'description', 'banner', 'seo_text',
-        'seo_title', 'seo_descr', 'seo_keywords'
-    ];
+    protected $fillable = ['lang_id', 'brand_id', 'name', 'description', 'body', 'banner', 'seo_text', 'seo_title', 'seo_description', 'seo_keywords'];
 
-    public function page() {
+    public function brand()
+    {
         return $this->belongsTo(Brand::class);
     }
 }

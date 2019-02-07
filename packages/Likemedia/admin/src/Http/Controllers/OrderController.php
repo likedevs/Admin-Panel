@@ -776,13 +776,13 @@ class OrderController extends Controller
         $subproduct = SubProduct::where('id', $request->get('id'))->first();
 
         if (!is_null($subproduct)) {
-            $subproduct->price_lei = $request->get('price');
+            $subproduct->price = $request->get('price');
             $subproduct->save();
         } else {
             $product = Product::where('id', $request->get('id'))->first();
 
             if (!is_null($product)) {
-                $product->price_lei = $request->get('price');
+                $product->price = $request->get('price');
                 $product->save();
             }
         }
@@ -1182,7 +1182,6 @@ class OrderController extends Controller
 
       } else {
           $set = Set::where('code', $request->get('code'))->first();
-
           if(count($set) > 0) {
               $cartSet = CartSet::create([
                   'set_id' => $set->id,
@@ -1668,13 +1667,13 @@ class OrderController extends Controller
       $amount = 0;
       foreach ($cartProducts as $key => $cartProduct):
           if($cartProduct->subproduct) {
-              $price = $cartProduct->subproduct->price_lei - ($cartProduct->subproduct->price_lei * $cartProduct->subproduct->discount / 100);
+              $price = $cartProduct->subproduct->price - ($cartProduct->subproduct->price * $cartProduct->subproduct->discount / 100);
 
               if($price) {
                 $amount +=  $price * $cartProduct->qty;
               }
           } else {
-              $price = $cartProduct->product->price_lei - ($cartProduct->product->price_lei * $cartProduct->product->discount / 100);
+              $price = $cartProduct->product->price - ($cartProduct->product->price * $cartProduct->product->discount / 100);
 
               if($price) {
                 $amount +=  $price * $cartProduct->qty;
